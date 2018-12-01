@@ -17,9 +17,9 @@
         $id = $_GET['id'];
         $success = $prod->deleteById($id);
         if ($success) {
-            echo crearResponse('Se eliminó correctamente el producto', 1);
+            echo json_encode(['msg'=> 'Se eliminó correctamente el producto', 'status'=> 1]);
         } else {
-            echo crearResponse('Se produjo un error al eliminar el producto', 0);
+            echo json_encode(['msg'=> 'Se produjo un error al eliminar el producto', 'status'=> 0]);
         }
     }
 
@@ -47,19 +47,20 @@
         $data = json_decode($json, true);
         $success = $prod->edit($id, $data);
         if ($success) {
-            echo crearResponse('Se actualizó correctamente el producto', 1);
+            echo json_encode(['msg'=> 'Se actualizó correctamente el producto', 'status'=> 1]);
         } else {
-            echo crearResponse('Se produjo un error al actualizar el producto', 0);
+            echo json_encode(['msg'=> 'Se produjo un error al actualizar el producto', 'status'=> 0]);
         }
-    }
+    }  
 
-    /**
-     * Permite crear la respuesta de salida, genera un JSON
-     * con el status, mensaje
-     * @param $msg
-     * @param $status
-     * @returns json
-     */
-    function crearResponse($msg, $status) {
-        return json_encode(['msg'=> $msg, 'status' => $status]);
+    //Si es un POST, da de alta a un producto
+    if ($metodo === 'POST') {
+        $json = file_get_contents('php://input');
+        $data = json_decode($json, true);
+        $newProduct = $prod->create($data);
+        if ($newProduct) {
+            echo json_encode(['msg'=> 'Se dio de alta el producto!', 'status'=> 1, 'data'=> $newProduct]);
+        } else {
+            echo json_encode(['msg'=> 'Se produjo un error al crear el producto', 'status'=> 0, 'data'=> null]);
+        }
     }

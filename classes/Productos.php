@@ -5,8 +5,11 @@
    * 
    * Métodos
    *  getProductos
+   *  getProductoById
    *  deleteById
    *  edit
+   *  filter
+   *  create
    *  cargarDatosDeArray
    */
   class Productos 
@@ -104,7 +107,8 @@
      * @param $search
      * @returns $productos[]
      */
-    public function filter($search) {
+    public function filter($search) 
+    {
       $db = DBConnection::getConnection();
       $query = "SELECT * FROM productos p 
                     INNER JOIN CATEGORIAS c ON c.idcat = p.fkidcat
@@ -121,13 +125,43 @@
       return $productos;
     }
 
+     /**
+     * Permite crear un producto , si se creó correctamente devuelve el object con el id
+     * creado, sino devuelve null
+     * @param $data
+     * @returns Producto | null
+     */
+    public function create($data) 
+    {
+      $db = DBConnection::getConnection();
+      $query = "INSERT INTO productos (nombre, descripcion, stock, precio, fecha_alta, img, fkidcat, fkidtipo)
+              VALUES (:nombre, :descripcion, :stock, :precio, NOW(), :img, :fkidcat, :fkidtipo)";
+      $stmt = $db->prepare($query);
+      $success = $stmt->execute([
+          'nombre' => $data['nombre'],
+          'descripcion' => $data['descripcion'],
+          'stock' => $data['stock'],
+          'precio' => $data['precio'],
+          'img' =>  isset($data['img']) ? $data['img'] : 'uploads/no-image.png',
+          'fkidcat' => $data['fkidcat'],
+          'fkidtipo' => $data['fkidtipo']
+      ]);
+      if ($success) {
+        $data['idproducto'] = $db->lastInsertId();
+        $prod = new Productos;
+        $prod->cargarDatosDeArray($data);
+        return $prod;
+      }
+      return null;
+    }
+
     /**
      * Permite cargar todos los datos al object para poder
      * devolverlos en la respuesta...
      * @param $fila
      * @returns void
      */
-    public function cargarDatosDeArray($fila)
+    private function cargarDatosDeArray($fila)
     {
       foreach($this->propiedades as $prop){
         $this->{$prop} = $fila[$prop];
