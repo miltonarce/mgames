@@ -47,11 +47,11 @@
         $data = json_decode($json, true);
         $validator = new Validator($data, [
             'nombre' => ['required'],
-            'descripcion' => ['required'],
+            'descripcion' => ['required', 'min:5'],
             'stock' => ['required'],
-            'precio' => ['required'],
-            'fkidcat' => ['required'],
-            'fkidtipo' => ['required']
+            'precio' => ['required', 'numeric'],
+            'fkidcat' => ['required', 'numeric'],
+            'fkidtipo' => ['required', 'numeric']
         ]);
         if ($validator->passes()) {
             $success = $prod->update($id, $data);

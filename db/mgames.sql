@@ -75,7 +75,7 @@ CREATE TABLE `usuarios` (
 -- Records of usuarios
 -- ----------------------------
 INSERT INTO `usuarios` VALUES ('1', 'adminmg', '$2y$10$m4hw3R2MIpFUrL2ZgWCNF.8Zl7Jy9LJ4voWfk3jn3NS3XO3z7Ha3W');
-INSERT INTO `usuarios` VALUES ('1', 'test', '$2y$10$5MgLxYuAnin5Utu3ygLJieHpWK2GKk9HieJRJPE9BlxOGIm.v.5/W');
+INSERT INTO `usuarios` VALUES ('2', 'test', '$2y$10$5MgLxYuAnin5Utu3ygLJieHpWK2GKk9HieJRJPE9BlxOGIm.v.5/W');
 
 -- ----------------------------
 -- Table structure for productos

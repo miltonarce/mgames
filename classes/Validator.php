@@ -94,5 +94,38 @@ class Validator
 		}
 		return true;
 	}
+
+	/**
+	 * Retorna true si el $campo tiene al menos $longitud caracteres. false de lo contrario.
+	 *
+	 * @param string $campo
+	 * @param int $longitud
+	 * @return bool
+	 */
+	protected function _min($campo, $longitud)
+	{
+		$valor = $this->data[$campo];
+		if(strlen($valor) < $longitud) {
+			$this->setError($campo, 'Este campo debe tener al menos ' . $longitud . ' caracteres.');
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Retorna true si el $campo es un valor numérico. false de lo contrario.
+	 *
+	 * @param string $campo
+	 * @return bool
+	 */
+	protected function _numeric($campo)
+	{
+		$valor = $this->data[$campo];
+		if(!is_numeric($valor)) {
+			$this->setError($campo, 'Este campo debe ser numérico.');
+			return false;
+		}
+		return true;
+	}
 	
 }
