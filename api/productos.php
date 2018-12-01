@@ -45,11 +45,23 @@
         $id = $_GET['id'];
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
-        $success = $prod->update($id, $data);
-        if ($success) {
-            echo json_encode(['msg'=> 'Se actualizó correctamente el producto', 'status'=> 1]);
+        $validator = new Validator($data, [
+            'nombre' => ['required'],
+            'descripcion' => ['required'],
+            'stock' => ['required'],
+            'precio' => ['required'],
+            'fkidcat' => ['required'],
+            'fkidtipo' => ['required']
+        ]);
+        if ($validator->passes()) {
+            $success = $prod->update($id, $data);
+            if ($success) {
+                echo json_encode(['msg'=> 'Se actualizó correctamente el producto', 'status'=> 1]);
+            } else {
+                echo json_encode(['msg'=> 'Se produjo un error al actualizar el producto', 'status'=> 0]);
+            }
         } else {
-            echo json_encode(['msg'=> 'Se produjo un error al actualizar el producto', 'status'=> 0]);
+            echo json_encode(['errors' => $validator->getErrores(), 'status' => 0, 'data' => null]);
         }
     }  
 
@@ -57,10 +69,22 @@
     if ($metodo === 'POST') {
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
-        $newProduct = $prod->save($data);
-        if ($newProduct) {
-            echo json_encode(['msg'=> 'Se dio de alta el producto!', 'status'=> 1, 'data'=> $newProduct]);
+        $validator = new Validator($data, [
+            'nombre' => ['required'],
+            'descripcion' => ['required'],
+            'stock' => ['required'],
+            'precio' => ['required'],
+            'fkidcat' => ['required'],
+            'fkidtipo' => ['required']
+        ]);
+        if ($validator->passes()) {
+            $newProduct = $prod->save($data);
+            if ($newProduct) {
+                echo json_encode(['msg'=> 'Se dio de alta el producto!', 'status'=> 1, 'data'=> $newProduct]);
+            } else {
+                echo json_encode(['msg'=> 'Se produjo un error al crear el producto', 'status'=> 0, 'data'=> null]);
+            }
         } else {
-            echo json_encode(['msg'=> 'Se produjo un error al crear el producto', 'status'=> 0, 'data'=> null]);
+            echo json_encode(['errors' => $validator->getErrores(), 'status' => 0, 'data' => null]);
         }
     }
