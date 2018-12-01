@@ -1,10 +1,19 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
 
-require '../autoload.php';
+    //Autoload para las clases
+    require '../autoload.php';
 
-$tips = new Tipos;
+    //Content type para devolver JSON
+    header('Content-Type: application/json; charset=utf-8');
 
-$tipos = $tips->getTipos();
+    //Obtengo el metodo de la petición
+    $metodo = $_SERVER['REQUEST_METHOD'];
 
-echo json_encode($tipos);
+    //Creo una istancia de los tipos
+    $type = new Tipos;
+
+    //Si es un GET, trae todas los tipos
+    if ($metodo === 'GET') {
+        $tipos = $type->getTipos();
+        echo json_encode($tipos);
+    }

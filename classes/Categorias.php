@@ -1,28 +1,32 @@
 <?php
 
-class Categorias
-{
-  protected $propiedades = ['idcat', 'categoria'];
+  class Categorias
+  {
+    protected $propiedades = ['idcat', 'categoria'];
 
-  public function getCategorias()
-  {
-    $db = DBConnection::getConnection();
-    $query = "SELECT * FROM categorias";
-    $stmt = $db->prepare($query);
-    $stmt->execute();
-    $result = [];
-    while($fila = $stmt->fetch()){
-      $cat = new Categorias;
-      $cat->cargarDatosDeArray($fila);
-      $salida[] = $cat;
+    /**
+     * Permite obtener todas las categorias disponibles
+     * @returns Categorias[]
+     */
+    public function getCategorias()
+    {
+      $db = DBConnection::getConnection();
+      $query = "SELECT * FROM categorias";
+      $stmt = $db->prepare($query);
+      $stmt->execute();
+      $result = [];
+      while($fila = $stmt->fetch()){
+        $cat = new Categorias;
+        $cat->cargarDatosDeArray($fila);
+        $salida[] = $cat;
+      }
+      return $salida;
     }
-    return $salida;
-  }
-  
-  public function cargarDatosDeArray($fila)
-  {
-    foreach($this->propiedades as $prop){
-      $this->{$prop} = $fila[$prop];
+    
+    private function cargarDatosDeArray($fila)
+    {
+      foreach($this->propiedades as $prop){
+        $this->{$prop} = $fila[$prop];
+      }
     }
   }
-}

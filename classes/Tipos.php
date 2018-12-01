@@ -2,8 +2,13 @@
 
 class Tipos
 {
+
   protected $propiedades = ['idtipo', 'tipo'];
 
+  /**
+   * Permite obtener todos los tipos disponbiles
+   * @returns Tipos[]
+   */
   public function getTipos()
   {
     $db = DBConnection::getConnection();
