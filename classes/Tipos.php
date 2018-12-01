@@ -1,15 +1,16 @@
 <?php
 
-class Tipos
+class Tipos implements JsonSerializable
 {
 
-  protected $propiedades = ['idtipo', 'tipo'];
-
+  protected $idTipo;
+  protected $tipo;
+  
   /**
    * Permite obtener todos los tipos disponbiles
    * @returns Tipos[]
    */
-  public function getTipos()
+  public function all()
   {
     $db = DBConnection::getConnection();
     $query = "SELECT * FROM tipos";
@@ -18,16 +19,39 @@ class Tipos
     $result = [];
     while($fila = $stmt->fetch()){
       $tip = new Tipos;
-      $tip->cargarDatosDeArray($fila);
+      $tip->setIdTipo($fila['idtipo']);
+      $tip->setTipo($fila['tipo']);
       $salida[] = $tip;
     }
     return $salida;
   }
   
-  public function cargarDatosDeArray($fila)
-  {
-    foreach($this->propiedades as $prop){
-      $this->{$prop} = $fila[$prop];
-    }
+  /**
+	 * Implementación para serealizar el object y enviarse en JSON...
+	 * @return {Object}
+	 */
+  public function jsonSerialize() {
+    return [
+        'idTipo'=> $this->getIdTipo(),
+        'tipo' => $this->getTipo()
+      ];
   }
+  
+  //Getters y Setters
+  public function setIdTipo($idTipo) {
+    $this->idTipo = $idTipo;
+  }
+
+  public function getIdTipo() {
+    return $this->idTipo;
+  }
+
+  public function setTipo($tipo) {
+    $this->tipo = $tipo;
+  }
+
+  public function getTipo() {
+    return $this->tipo;
+  }
+
 }

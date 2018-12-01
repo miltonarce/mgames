@@ -14,6 +14,6 @@
 
     //Si es un GET, trae todas los tipos
     if ($metodo === 'GET') {
-        $tipos = $type->getTipos();
+        $tipos = $type->all();
         echo json_encode($tipos);
     }

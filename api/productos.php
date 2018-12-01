@@ -15,7 +15,7 @@
     //Si es DELETE, elimina el producto
     if ($metodo === 'DELETE' && isset($_GET['id'])) {
         $id = $_GET['id'];
-        $success = $prod->deleteById($id);
+        $success = $prod->remove($id);
         if ($success) {
             echo json_encode(['msg'=> 'Se eliminó correctamente el producto', 'status'=> 1]);
         } else {
@@ -28,14 +28,14 @@
     if ($metodo === 'GET') {
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $productFound = $prod->getProductoById($id);
+            $productFound = $prod->find($id);
             echo json_encode($productFound);
         } else if(isset($_GET['search'])) {
             $search = $_GET['search'];
             $prods = $prod->filter($search);
             echo json_encode($prods);
         } else {
-            $prods = $prod->getProductos();
+            $prods = $prod->all();
             echo json_encode($prods);
         }
     } 
@@ -45,7 +45,7 @@
         $id = $_GET['id'];
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
-        $success = $prod->edit($id, $data);
+        $success = $prod->update($id, $data);
         if ($success) {
             echo json_encode(['msg'=> 'Se actualizó correctamente el producto', 'status'=> 1]);
         } else {
@@ -57,7 +57,7 @@
     if ($metodo === 'POST') {
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
-        $newProduct = $prod->create($data);
+        $newProduct = $prod->save($data);
         if ($newProduct) {
             echo json_encode(['msg'=> 'Se dio de alta el producto!', 'status'=> 1, 'data'=> $newProduct]);
         } else {

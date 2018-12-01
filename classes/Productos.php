@@ -20,7 +20,7 @@
      * Permite obtener todos los productos que existen...
      * @returns $productos[]
      */
-    public function getProductos()
+    public function all()
     {
       $db = DBConnection::getConnection();
       $query = "SELECT * FROM productos";
@@ -40,7 +40,7 @@
      * @param $id
      * @return Producto
      */
-    public function getProductoById($id) 
+    public function find($id) 
     {
       $db = DBConnection::getConnection();
       $query = "SELECT * FROM productos p 
@@ -60,7 +60,7 @@
      * @param $id
      * @returns boolean
      */
-    public function deleteById($id) 
+    public function remove($id) 
     {
       $db = DBConnection::getConnection();
       $query = "DELETE FROM productos WHERE idproducto = ?";
@@ -76,7 +76,7 @@
      * @param $data
      * @returns boolean
      */
-    public function edit($id, $data)
+    public function update($id, $data)
     {
       $db = DBConnection::getConnection();
       $query = "UPDATE productos SET 
@@ -131,7 +131,7 @@
      * @param $data
      * @returns Producto | null
      */
-    public function create($data) 
+    public function save($data) 
     {
       $db = DBConnection::getConnection();
       $query = "INSERT INTO productos (nombre, descripcion, stock, precio, fecha_alta, img, fkidcat, fkidtipo)

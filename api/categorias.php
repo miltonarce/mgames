@@ -14,6 +14,6 @@
 
     //Si es un GET, trae todas las categorias
     if ($metodo === 'GET') {
-        $categorias = $cat->getCategorias();
+        $categorias = $cat->all();
         echo json_encode($categorias);
     }
