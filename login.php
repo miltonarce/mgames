@@ -13,7 +13,7 @@
   <main class="container">
 		<h1>Iniciar Sesión</h1>
 		<?php
-		if(isset($_SESSION['error'])) {
+			if(isset($_SESSION['error'])) {
 		?>
 			<div class="alert alert-danger"><?= $_SESSION['error'];?></div>
 		<?php

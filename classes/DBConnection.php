@@ -7,7 +7,7 @@ Class DBConnection
   private static $host  = "localhost";
   private static $user = "root";
   private static $pass = "";
-  private static $base = "arce_milton_millenialgames";
+  private static $base = "mgames";
   private static $db;
 
   private function __construct(){}
