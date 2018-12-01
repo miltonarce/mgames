@@ -23,7 +23,9 @@
     public function all()
     {
       $db = DBConnection::getConnection();
-      $query = "SELECT * FROM productos";
+      $query = "SELECT * FROM productos p 
+                    INNER JOIN CATEGORIAS c ON c.idcat = p.fkidcat
+                    INNER JOIN TIPOS t ON t.idtipo = p.fkidtipo";
       $stmt = $db->prepare($query);
       $stmt->execute();
       $productos = [];

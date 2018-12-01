@@ -9,11 +9,11 @@
      * @param $password
      * @returns boolean
      */
-    public function login ($usuario, $password)
+    public function login($usuario, $password)
     {
       $user = new Usuario;
       if ($user->getUser($usuario)) {
-        if (password_verify($password, $user->password)) {
+        if (password_verify($password, $user->getPassword())) {
           $this->loginUser($user);
           return true;
         }
@@ -25,8 +25,8 @@
     public function loginUser(Usuario $user)
     {
       
-      $_SESSION['id'] = $user->id;
-      $_SESSION['username'] = $user->usuario;
+      $_SESSION['id'] = $user->getId();
+      $_SESSION['username'] = $user->getUsuario();
     }
 
     /**
