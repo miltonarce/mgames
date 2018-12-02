@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Clase Usuario que se encarga de representar el modelo de la tabla Usuario
+ * realiza las acciones basicas de CRUD
+ */
 class Usuario
 {
 

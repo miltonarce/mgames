@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Clase Tipos que se encarga de representar el modelo de la tabla Tipos
+ * realiza las acciones basicas de CRUD
+ */
 class Tipos implements JsonSerializable
 {
 

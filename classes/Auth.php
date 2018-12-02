@@ -1,4 +1,9 @@
 <?php
+
+  /**
+   * Clase Auth que maneja la autenticación del usuario, si esta logueado,
+   * realiza login, guarda en sesión los datos necesarios...
+   */
   class Auth
   {
 
@@ -14,19 +19,13 @@
       $user = new Usuario;
       if ($user->getUser($usuario)) {
         if (password_verify($password, $user->getPassword())) {
-          $this->loginUser($user);
+          Session::set('id', $user->getId());
+          Session::set('username', $user->getUsuario());
           return true;
         }
         return false;
       }
       return false;
-    }
-    
-    public function loginUser(Usuario $user)
-    {
-      
-      $_SESSION['id'] = $user->getId();
-      $_SESSION['username'] = $user->getUsuario();
     }
 
     /**
@@ -36,8 +35,8 @@
      */
     public function logout()
     {
-      unset($_SESSION['id']);
-      unset($_SESSION['username']);
+      Session::remove('id');
+      Session::remove('username');
     }
 
     /**
@@ -46,7 +45,7 @@
      */
     public static function isLogged()
     {
-      return isset($_SESSION['id']);
+      return Session::get('id') ? true : false;
     }
 
   }

@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Conexión a mi DB por PDO
+ * Clase DBConnection , maneja la conexión contra la base de datos, es Singleton
+ * para no generar varias instancias de la conexión
  */
 Class DBConnection
 {

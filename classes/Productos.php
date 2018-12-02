@@ -1,16 +1,8 @@
 <?php
 
-  /**
-   * Model para tabla Productos
-   * 
-   * Métodos
-   *  getProductos
-   *  getProductoById
-   *  deleteById
-   *  edit
-   *  filter
-   *  create
-   *  cargarDatosDeArray
+   /**
+   * Clase Productos que se encarga de representar el modelo de la tabla Productos
+   * realiza las acciones basicas de CRUD
    */
   class Productos implements JsonSerializable
   {

@@ -1,5 +1,9 @@
 <?php
 
+  /**
+   * Clase Categorias que se encarga de representar el modelo de la tabla Categorias
+   * realiza las acciones basicas de CRUD
+   */
   class Categorias implements JsonSerializable
   {
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Clase para manipular la sesión de PHP
+ * Clase para manipular la sesión de PHP, se hace un Wrapper...
  */
 class Session
 {   
@@ -12,7 +12,7 @@ class Session
      * @param $value
      * @returns void
      */
-    public function set($key, $value) 
+    public static function set($key, $value) 
     {
         $_SESSION[$key] = $value;
     }
@@ -21,7 +21,7 @@ class Session
      * Permite obtener una key de la sesión
      * @returns $object
      */
-    public function get($key)
+    public static function get($key)
     {
         return isset($_SESSION[$key]) ? $_SESSION[$key] : null;
     }
@@ -31,7 +31,7 @@ class Session
      * @param $keys
      * @returns void
      */
-    public function remove($keys) 
+    public static function remove($keys) 
     {
         foreach ($keys as $key) {
             unset($_SESSION[$key]);
