@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <form id="agregarprod">
+        <input id="imagen" type="file" name="imagen"/>
+        <button type="submit">Agregar</button>
+    </form>
+    <script>
+        //OBTENGO EL FORMULARIO
+        let agregarprod = document.getElementById('agregarprod');
+        //SETEO EL SUBMIT
+        agregarprod.addEventListener('submit', ev => {
+            ev.preventDefault();
+            //OBTENGO EL CAMPO IMAGEN
+            let imageField = document.getElementById('imagen');
+            //SI EL USUARIO SUBIO ARCHIVOS, OBTENGO EL ARCHIVO DE IMAGEN...
+            if (imageField.files.length > 0) {
+                //LLAMO LA FUNCION, Y OBTENGO EL BASE 64 PARA MANDARLO EN EL REQUEST...
+                getBase64(imageField.files[0]).then(base64 => {
+                    console.log('base64', base64);
+                })
+            }
+        });
+    </script>
+    <script src="js/obtener-imagen.js"></script>
+</body>
+</html>

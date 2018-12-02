@@ -92,7 +92,7 @@
           'descripcion' => $data['descripcion'],
           'stock' => $data['stock'],
           'precio' => $data['precio'],
-          'img' =>  isset($data['img']) ? $data['img'] : 'uploads/no-image.png',
+          'img' =>  isset($data['img']) ? $this->saveImage($data['img']) : 'no-image.png',
           'fkidcat' => $data['fkidcat'],
           'fkidtipo' => $data['fkidtipo']
       ]);
@@ -127,7 +127,7 @@
         'descripcion' => $data['descripcion'],
         'stock' => $data['stock'],
         'precio' => $data['precio'],
-        'img' => $data['img'],
+        'img' => $this->saveImage($data['img']),
         'fkidcat' => $data['fkidcat'],
         'fkidtipo' => $data['fkidtipo'],
         'idproducto' => $id
@@ -203,6 +203,24 @@
       $prod->setCategoria($cat);
       $prod->setTipo($tipo);
       return $prod;
+    }
+
+    /**
+     * Permite guardar la imagen en disco, en la carpeta uploads, retorna el nombre de la imagen...
+     * @param $img
+     * @return string
+     */
+    private function saveImage($base64) {
+      $data = explode(',', $base64);
+      $extension = '.png';
+      $extData = explode('/', $data[0]);
+      if(strpos($extData[1], 'jpeg') !== false) {
+          $extension = '.jpg';
+      }
+      $imageData = base64_decode($data[1]);
+      $imageName = time() . $extension;
+      file_put_contents('../uploads/' . $imageName, $imageData);
+      return $imageName;
     }
 
     //Getters y Setters
