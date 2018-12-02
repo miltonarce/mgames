@@ -15,11 +15,15 @@
     //Si es DELETE, elimina el producto
     if ($metodo === 'DELETE' && isset($_GET['id'])) {
         $id = $_GET['id'];
-        $success = $prod->remove($id);
-        if ($success) {
-            echo json_encode(['msg'=> 'Se eliminó correctamente el producto', 'status'=> 1]);
-        } else {
-            echo json_encode(['msg'=> 'Se produjo un error al eliminar el producto', 'status'=> 0]);
+        try {
+            $success = $prod->remove($id);
+            if ($success) {
+                echo json_encode(['msg'=> 'Se eliminó correctamente el producto', 'status'=> 1]);
+            } else {
+                echo json_encode(['msg'=> 'Se produjo un error al eliminar el producto', 'status'=> 0]);
+            }
+        } catch(NoExisteException $e) {
+            echo json_encode(['msg' => $e->getMessage(), 'status' => 0]);
         }
     }
 
@@ -28,8 +32,12 @@
     if ($metodo === 'GET') {
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $productFound = $prod->find($id);
-            echo json_encode($productFound);
+            try {
+                $productFound = $prod->find($id);
+                echo json_encode($productFound);
+            } catch(NoExisteException $e) {
+               echo json_encode(['msg' => $e->getMessage(), 'status' => 0]);
+            }
         } else if(isset($_GET['search'])) {
             $search = $_GET['search'];
             $prods = $prod->filter($search);

@@ -31,8 +31,9 @@ class Tipos implements JsonSerializable, CRUD
   }
 
   /**
-   * Permite encontrar un tipo por el id del mismo
+   * Permite encontrar un tipo por el id del mismo, si no existe el id lanza una excepción
    * @param $id
+   * @throws NoExisteException
    * @return Tipos
    */
   public function find($id) 
@@ -42,6 +43,9 @@ class Tipos implements JsonSerializable, CRUD
     $stmt = $db->prepare($query);
     $stmt->execute([$id]);
     $fila = $stmt->fetch();
+    if (!$fila) {
+      throw new NoExisteException("No existe ningún registro con el id $id");
+    }
     $tip = new Tipos;
     $tip->setIdTipo($fila['idtipo']);
     $tip->setTipo($fila['tipo']);
@@ -51,11 +55,13 @@ class Tipos implements JsonSerializable, CRUD
   /**
    * Permite eliminar un tipo por el id del mismo
    * @param $id
+   * @throws NoExisteException
    * @return boolean
    */
   public function remove($id) 
   {
     $db = DBConnection::getConnection();
+    $this->find($id); //Valido primero si existe el registro a eliminar...
     $query = "DELETE FROM tipos WHERE idtipo = ?";
     $stmt = $db->prepare($query);
     $status = $stmt->execute([$id]);

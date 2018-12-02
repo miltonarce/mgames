@@ -38,8 +38,9 @@
     }
 
     /**
-     * Permite obtener un producto por el id del mismo
+     * Permite obtener un producto por el id del mismo, si no existe el id lanza una excepción
      * @param $id
+     * @throws NoExisteException
      * @return Productos
      */
     public function find($id) 
@@ -52,17 +53,22 @@
       $stmt = $db->prepare($query);
       $stmt->execute([$id]);
       $fila = $stmt->fetch();
+      if (!$fila) {
+        throw new NoExisteException("No existe ningún registro con el id $id");
+      }
       return $this->populateProducto($fila);
     }
 
     /**
      * Permite eliminar un producto por el id del mismo
      * @param $id
+     * @throws NoExisteException
      * @return boolean
      */
     public function remove($id) 
     {
       $db = DBConnection::getConnection();
+      $this->find($id); //Valido primero si existe el registro a eliminar...
       $query = "DELETE FROM productos WHERE idproducto = ?";
       $stmt = $db->prepare($query);
       $status = $stmt->execute([$id]);

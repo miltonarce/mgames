@@ -31,8 +31,9 @@
     }
 
     /**
-     * Permite obtener una categoría especifica por el id
+     * Permite obtener una categoría especifica por el id, si el id es inválido lanza una excepción...
      * @param $id
+     * @throws NoExisteException
      * @return Categorias
      */
     public function find($id) 
@@ -42,6 +43,9 @@
       $stmt = $db->prepare($query);
       $stmt->execute([$id]);
       $fila = $stmt->fetch();
+      if (!$fila) {
+        throw new NoExisteException("No existe ningún registro con el id $id");
+      }
       $cat = new Categorias;
       $cat->setIdCat($fila['idcat']);
       $cat->setCategoria($fila['categoria']);
@@ -51,11 +55,13 @@
     /**
      * Permite eliminar una categoria por el id
      * @param $id
+     * @throws NoExisteException
      * @return boolean 
      */
     public function remove($id) 
     {
       $db = DBConnection::getConnection();
+      $this->find($id); //Valido primero si existe el registro a eliminar...
       $query = "DELETE FROM categorias WHERE idcat = ?";
       $stmt = $db->prepare($query);
       $status = $stmt->execute([$id]);

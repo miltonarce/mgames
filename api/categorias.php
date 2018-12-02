@@ -15,11 +15,15 @@
     //Si es DELETE, elimina el producto
     if ($metodo === 'DELETE' && isset($_GET['id'])) {
         $id = $_GET['id'];
-        $success = $cat->remove($id);
-        if ($success) {
-            echo json_encode(['msg'=> 'Se eliminó correctamente la categoría', 'status'=> 1]);
-        } else {
-            echo json_encode(['msg'=> 'Se produjo un error al eliminar la categoría', 'status'=> 0]);
+        try {
+            $success = $cat->remove($id);
+            if ($success) {
+                echo json_encode(['msg'=> 'Se eliminó correctamente la categoría', 'status'=> 1]);
+            } else {
+                echo json_encode(['msg'=> 'Se produjo un error al eliminar la categoría', 'status'=> 0]);
+            }
+        } catch(NoExisteException $e) {
+            echo json_encode(['msg' => $e->getMessage(), 'status' => 0]);
         }
     }
 
@@ -27,8 +31,12 @@
     if ($metodo === 'GET') {
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $catFound = $cat->find($id);
-            echo json_encode($catFound);
+            try {
+                $catFound = $cat->find($id);
+                echo json_encode($catFound);
+            } catch(NoExisteException $e) {
+               echo json_encode(['msg' => $e->getMessage(), 'status' => 0]);
+            }
         } else {
             $categorias = $cat->all();
             echo json_encode($categorias);

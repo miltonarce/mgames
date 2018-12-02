@@ -15,11 +15,15 @@
     //Si es DELETE, elimina el tipo
     if ($metodo === 'DELETE' && isset($_GET['id'])) {
         $id = $_GET['id'];
-        $success = $type->remove($id);
-        if ($success) {
-            echo json_encode(['msg'=> 'Se eliminó correctamente el tipo', 'status'=> 1]);
-        } else {
-            echo json_encode(['msg'=> 'Se produjo un error al eliminar el tipo', 'status'=> 0]);
+        try {
+            $success = $type->remove($id);
+            if ($success) {
+                echo json_encode(['msg'=> 'Se eliminó correctamente el tipo', 'status'=> 1]);
+            } else {
+                echo json_encode(['msg'=> 'Se produjo un error al eliminar el tipo', 'status'=> 0]);
+            }
+        } catch(NoExisteException $e) {
+            echo json_encode(['msg' => $e->getMessage(), 'status' => 0]);
         }
     }
 
@@ -27,8 +31,12 @@
     if ($metodo === 'GET') {
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $typeFound = $type->find($id);
-            echo json_encode($typeFound);
+            try {
+                $typeFound = $type->find($id);
+                echo json_encode($typeFound);
+            } catch(NoExisteException $e) {
+               echo json_encode(['msg' => $e->getMessage(), 'status' => 0]);
+            }
         } else {
             $types = $type->all();
             echo json_encode($types);
