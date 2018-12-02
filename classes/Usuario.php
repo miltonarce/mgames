@@ -2,7 +2,6 @@
 
 /**
  * Clase Usuario que se encarga de representar el modelo de la tabla Usuario
- * realiza las acciones basicas de CRUD
  */
 class Usuario
 {
@@ -15,6 +14,7 @@ class Usuario
   /**
    * Permite obtener el usuario por el username...
    * @param $username
+   * @return boolean
    */
   public function getUser($usuario)
   {

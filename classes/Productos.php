@@ -4,7 +4,7 @@
    * Clase Productos que se encarga de representar el modelo de la tabla Productos
    * realiza las acciones basicas de CRUD
    */
-  class Productos implements JsonSerializable
+  class Productos implements JsonSerializable, CRUD
   {
 
     protected $idproducto;
@@ -19,7 +19,7 @@
 
     /**
      * Permite obtener todos los productos que existen...
-     * @returns $productos[]
+     * @return Productos[]
      */
     public function all()
     {
@@ -40,7 +40,7 @@
     /**
      * Permite obtener un producto por el id del mismo
      * @param $id
-     * @return Producto
+     * @return Productos
      */
     public function find($id) 
     {
@@ -58,7 +58,7 @@
     /**
      * Permite eliminar un producto por el id del mismo
      * @param $id
-     * @returns boolean
+     * @return boolean
      */
     public function remove($id) 
     {
@@ -70,11 +70,38 @@
     }
 
     /**
+     * Permite crear un producto , si se creó correctamente devuelve el id del producto creado...
+     * creado, sino devuelve null
+     * @param $data
+     * @return number|null
+     */
+    public function save($data) 
+    {
+      $db = DBConnection::getConnection();
+      $query = "INSERT INTO productos (nombre, descripcion, stock, precio, fecha_alta, img, fkidcat, fkidtipo)
+              VALUES (:nombre, :descripcion, :stock, :precio, NOW(), :img, :fkidcat, :fkidtipo)";
+      $stmt = $db->prepare($query);
+      $success = $stmt->execute([
+          'nombre' => $data['nombre'],
+          'descripcion' => $data['descripcion'],
+          'stock' => $data['stock'],
+          'precio' => $data['precio'],
+          'img' =>  isset($data['img']) ? $data['img'] : 'uploads/no-image.png',
+          'fkidcat' => $data['fkidcat'],
+          'fkidtipo' => $data['fkidtipo']
+      ]);
+      if ($success) {
+        return $db->lastInsertId();
+      }
+      return null;
+    }
+
+    /**
      * Permite editar un producto por el id del mismo, 
      * actualiza la información del producto con la data recibida
      * @param $id
      * @param $data
-     * @returns boolean
+     * @return boolean
      */
     public function update($id, $data)
     {
@@ -105,7 +132,7 @@
     /**
      * Permite filtar los productos por una descripción ingresada
      * @param $search
-     * @returns $productos[]
+     * @return Productos[]
      */
     public function filter($search) 
     {
@@ -124,36 +151,9 @@
       return $productos;
     }
 
-     /**
-     * Permite crear un producto , si se creó correctamente devuelve el id del producto creado...
-     * creado, sino devuelve null
-     * @param $data
-     * @returns number | null
-     */
-    public function save($data) 
-    {
-      $db = DBConnection::getConnection();
-      $query = "INSERT INTO productos (nombre, descripcion, stock, precio, fecha_alta, img, fkidcat, fkidtipo)
-              VALUES (:nombre, :descripcion, :stock, :precio, NOW(), :img, :fkidcat, :fkidtipo)";
-      $stmt = $db->prepare($query);
-      $success = $stmt->execute([
-          'nombre' => $data['nombre'],
-          'descripcion' => $data['descripcion'],
-          'stock' => $data['stock'],
-          'precio' => $data['precio'],
-          'img' =>  isset($data['img']) ? $data['img'] : 'uploads/no-image.png',
-          'fkidcat' => $data['fkidcat'],
-          'fkidtipo' => $data['fkidtipo']
-      ]);
-      if ($success) {
-        return $db->lastInsertId();
-      }
-      return null;
-    }
-
     /**
      * Implementación para serealizar el object y enviarse en JSON...
-     * @return {Object}
+     * @return Object
      */
     public function jsonSerialize() 
     {
@@ -174,7 +174,7 @@
      * Permite crear un Producto con los datos recibidos de la fila,
      * genera el object usando los setters y carga la categoria y el tipo...
      * @param $row
-     * @returns Producto
+     * @return Productos
      */
     private function populateProducto($row) 
     {

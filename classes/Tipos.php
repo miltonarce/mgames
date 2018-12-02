@@ -4,15 +4,15 @@
  * Clase Tipos que se encarga de representar el modelo de la tabla Tipos
  * realiza las acciones basicas de CRUD
  */
-class Tipos implements JsonSerializable
+class Tipos implements JsonSerializable, CRUD
 {
 
   protected $idTipo;
   protected $tipo;
   
   /**
-   * Permite obtener todos los tipos disponbiles
-   * @returns Tipos[]
+   * Permite obtener todos los tipos que existen
+   * @return Tipos[]
    */
   public function all()
   {
@@ -29,7 +29,76 @@ class Tipos implements JsonSerializable
     }
     return $salida;
   }
-  
+
+  /**
+   * Permite encontrar un tipo por el id del mismo
+   * @param $id
+   * @return Tipos
+   */
+  public function find($id) 
+  {
+    $db = DBConnection::getConnection();
+    $query = "SELECT * FROM tipos WHERE idtipo = ?";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$id]);
+    $fila = $stmt->fetch();
+    $tip = new Tipos;
+    $tip->setIdTipo($fila['idtipo']);
+    $tip->setTipo($fila['tipo']);
+    return $tip;
+  }
+
+  /**
+   * Permite eliminar un tipo por el id del mismo
+   * @param $id
+   * @return boolean
+   */
+  public function remove($id) 
+  {
+    $db = DBConnection::getConnection();
+    $query = "DELETE FROM tipos WHERE idtipo = ?";
+    $stmt = $db->prepare($query);
+    $status = $stmt->execute([$id]);
+    return $stmt->rowCount();
+  }
+
+  /**
+   * Permite crear un tipo , si se creó correctamente devuelve el id del tipo creado...
+   * creado, sino devuelve null
+   * @param $data
+   * @return number|null
+   */
+  public function save($data) 
+  {
+    $db = DBConnection::getConnection();
+    $query = "INSERT INTO tipos (tipo) VALUES (?)";
+    $stmt = $db->prepare($query);
+    $success = $stmt->execute([$data['tipo']]);
+    if ($success) {
+      return $db->lastInsertId();
+    }
+    return null;
+  }
+
+  /**
+   * Permite editar un tipo por el id del mismo, 
+   * actualiza la información del tipo con la data recibida
+   * @param $id
+   * @param $data
+   * @return boolean
+   */
+  public function update($id, $data) 
+  {
+    $db = DBConnection::getConnection();
+    $query = "UPDATE tipos SET idtipo= :idtipo, tipo= :tipo WHERE idtipo= :idtipo";
+    $stmt = $db->prepare($query);
+    $stmt->execute([
+      'idtipo' => $id,
+      'tipo' => $data['tipo'],
+    ]);
+    return $stmt->rowCount();
+  }
+
   /**
 	 * Implementación para serealizar el object y enviarse en JSON...
 	 * @return {Object}

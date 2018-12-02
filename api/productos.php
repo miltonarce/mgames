@@ -9,7 +9,7 @@
     //Obtengo el metodo de la petición
     $metodo = $_SERVER['REQUEST_METHOD'];
 
-    //Creo una istancia del producto
+    //Creo una instancia del producto
     $prod = new Productos;
 
     //Si es DELETE, elimina el producto

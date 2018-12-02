@@ -12,7 +12,7 @@
      * para validarlo
      * @param $usuario
      * @param $password
-     * @returns boolean
+     * @return boolean
      */
     public function login($usuario, $password)
     {
@@ -31,7 +31,7 @@
     /**
      * Permite cerrar la sesión del usuario
      * eliminando las variables de la sesión
-     * @returns void
+     * @return void
      */
     public function logout()
     {
@@ -40,13 +40,17 @@
 
     /**
      * Permite verificar si el usuario esta logueado
-     * @returns boolean
+     * @return boolean
      */
     public static function isLogged()
     {
       return Session::get('USER_LOGGED_IN') ? true : false;
     }
 
+    /**
+     * Permite verificar si el usuario logueado es un ADMIN
+     * @return boolean
+     */
     public static function isAdmin() 
     {
       $user = Session::get('USER_LOGGED_IN');

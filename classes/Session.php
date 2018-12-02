@@ -10,7 +10,7 @@ class Session
      * Permite setear una key en la sesión
      * @param $key
      * @param $value
-     * @returns void
+     * @return void
      */
     public static function set($key, $value) 
     {
@@ -19,7 +19,7 @@ class Session
 
     /**
      * Permite obtener una key de la sesión
-     * @returns $object
+     * @return Object
      */
     public static function get($key)
     {
@@ -29,7 +29,7 @@ class Session
     /**
      * Permite eliminar varias keys de la sesión
      * @param $keys
-     * @returns void
+     * @return void
      */
     public static function remove($keys) 
     {
