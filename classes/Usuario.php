@@ -10,6 +10,7 @@ class Usuario
   protected $id;
   protected $usuario;
   protected $password;
+  protected $isAdmin;
 
   /**
    * Permite obtener el usuario por el username...
@@ -60,5 +61,15 @@ class Usuario
   {
     return $this->password;
   }
+
+  public function setIsAdmin($isAdmin) 
+  {
+		$this->isAdmin = $isAdmin;
+	}
+
+  public function getIsAdmin() 
+  {
+		return $this->isAdmin;
+	}
 
 }

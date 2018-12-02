@@ -1,18 +1,3 @@
-/*
-Navicat MySQL Data Transfer
-
-Source Server         : Localhost
-Source Server Version : 50723
-Source Host           : localhost:3306
-Source Database       : arce_milton_millenialgames
-
-Target Server Type    : MYSQL
-Target Server Version : 50723
-File Encoding         : 65001
-
-Date: 2018-12-01 16:10:59
-*/
-
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP DATABASE IF EXISTS  `mgames`;
@@ -67,6 +52,7 @@ CREATE TABLE `usuarios` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(25) NOT NULL,
   `password` varchar(60) NOT NULL,
+  `is_admin` int(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -74,8 +60,8 @@ CREATE TABLE `usuarios` (
 -- ----------------------------
 -- Records of usuarios (Password 1234)
 -- ----------------------------
-INSERT INTO `usuarios` VALUES ('1', 'adminmg', '$2y$10$m4hw3R2MIpFUrL2ZgWCNF.8Zl7Jy9LJ4voWfk3jn3NS3XO3z7Ha3W');
-INSERT INTO `usuarios` VALUES ('2', 'test', '$2y$10$5MgLxYuAnin5Utu3ygLJieHpWK2GKk9HieJRJPE9BlxOGIm.v.5/W');
+INSERT INTO `usuarios` VALUES ('1', 'adminmg', '$2y$10$m4hw3R2MIpFUrL2ZgWCNF.8Zl7Jy9LJ4voWfk3jn3NS3XO3z7Ha3W', 1);
+INSERT INTO `usuarios` VALUES ('2', 'test', '$2y$10$5MgLxYuAnin5Utu3ygLJieHpWK2GKk9HieJRJPE9BlxOGIm.v.5/W', 0);
 
 -- ----------------------------
 -- Table structure for productos

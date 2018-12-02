@@ -19,8 +19,8 @@
       $user = new Usuario;
       if ($user->getUser($usuario)) {
         if (password_verify($password, $user->getPassword())) {
-          Session::set('id', $user->getId());
-          Session::set('username', $user->getUsuario());
+          //Guarda en sesión una variable con los datos del user, se hace un serialize por ser un object...
+          Session::set('USER_LOGGED_IN', serialize($user));
           return true;
         }
         return false;
@@ -35,8 +35,7 @@
      */
     public function logout()
     {
-      Session::remove('id');
-      Session::remove('username');
+      Session::remove(['USER_LOGGED_IN']);
     }
 
     /**
@@ -45,7 +44,13 @@
      */
     public static function isLogged()
     {
-      return Session::get('id') ? true : false;
+      return Session::get('USER_LOGGED_IN') ? true : false;
+    }
+
+    public static function isAdmin() 
+    {
+      $user = Session::get('USER_LOGGED_IN');
+      return $user->getIsAdmin();
     }
 
   }
