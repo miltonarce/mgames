@@ -30,7 +30,8 @@
      * Implementación para serealizar el object y enviarse en JSON...
      * @return {Object}
      */
-    public function jsonSerialize() {
+    public function jsonSerialize() 
+    {
       return [
         'idcat'=> $this->getIdCat(),
         'categoria' => $this->getCategoria(),
@@ -38,19 +39,23 @@
     }
     
     //Getters y Setters
-    public function setIdCat($idcat) {
+    public function setIdCat($idcat) 
+    {
       $this->idcat = $idcat;
     }
 
-    public function getIdCat() {
+    public function getIdCat() 
+    {
       return $this->idcat;
     }
 
-    public function setCategoria($categoria) {
+    public function setCategoria($categoria) 
+    {
       $this->categoria = $categoria;
     }
 
-    public function getCategoria() {
+    public function getCategoria() 
+    {
       return $this->categoria;
     }
 

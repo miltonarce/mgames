@@ -30,7 +30,8 @@ class Tipos implements JsonSerializable
 	 * Implementación para serealizar el object y enviarse en JSON...
 	 * @return {Object}
 	 */
-  public function jsonSerialize() {
+  public function jsonSerialize() 
+  {
     return [
         'idTipo'=> $this->getIdTipo(),
         'tipo' => $this->getTipo()
@@ -38,19 +39,23 @@ class Tipos implements JsonSerializable
   }
   
   //Getters y Setters
-  public function setIdTipo($idTipo) {
+  public function setIdTipo($idTipo) 
+  {
     $this->idTipo = $idTipo;
   }
 
-  public function getIdTipo() {
+  public function getIdTipo() 
+  {
     return $this->idTipo;
   }
 
-  public function setTipo($tipo) {
+  public function setTipo($tipo) 
+  {
     $this->tipo = $tipo;
   }
 
-  public function getTipo() {
+  public function getTipo() 
+  {
     return $this->tipo;
   }
 

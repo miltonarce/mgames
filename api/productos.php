@@ -50,6 +50,7 @@
             'descripcion' => ['required', 'min:5'],
             'stock' => ['required'],
             'precio' => ['required', 'numeric'],
+            'img' => ['required'],
             'fkidcat' => ['required', 'numeric'],
             'fkidtipo' => ['required', 'numeric']
         ]);

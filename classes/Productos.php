@@ -12,9 +12,18 @@
    *  create
    *  cargarDatosDeArray
    */
-  class Productos 
+  class Productos implements JsonSerializable
   {
-    protected $propiedades = ['idproducto', 'nombre', 'descripcion', 'stock', 'precio', 'fecha_alta', 'img', 'fkidcat', 'fkidtipo'];
+
+    protected $idproducto;
+    protected $nombre;
+    protected $descripcion;
+    protected $stock;
+    protected $precio;
+    protected $fecha_alta;
+    protected $img;
+    protected $categoria;
+    protected $tipo;
 
     /**
      * Permite obtener todos los productos que existen...
@@ -30,8 +39,7 @@
       $stmt->execute();
       $productos = [];
       while($fila = $stmt->fetch()){
-        $prod = new Productos;
-        $prod->cargarDatosDeArray($fila);
+        $prod = $this->populateProducto($fila);
         $productos[] = $prod;
       }
       return $productos;
@@ -52,9 +60,7 @@
       $stmt = $db->prepare($query);
       $stmt->execute([$id]);
       $fila = $stmt->fetch();
-      $prod = new Productos;
-      $prod->cargarDatosDeArray($fila);
-      return $prod;
+      return $this->populateProducto($fila);
     }
 
     /**
@@ -88,7 +94,7 @@
                       precio =  :precio,
                       img = :img,
                       fkidcat = :fkidcat,
-                      fkidtipo = ':fkidtipo
+                      fkidtipo = :fkidtipo
                       WHERE idproducto = :idproducto";
       $stmt = $db->prepare($query);
       $status = $stmt->execute([
@@ -120,18 +126,17 @@
       $stmt->execute(["%$search%"]);
       $productos = [];
       while($fila = $stmt->fetch()){
-        $prod = new Productos;
-        $prod->cargarDatosDeArray($fila);
+        $prod = $this->populateProducto($fila);
         $productos[] = $prod;
       }
       return $productos;
     }
 
      /**
-     * Permite crear un producto , si se creó correctamente devuelve el object con el id
+     * Permite crear un producto , si se creó correctamente devuelve el id del producto creado...
      * creado, sino devuelve null
      * @param $data
-     * @returns Producto | null
+     * @returns number | null
      */
     public function save($data) 
     {
@@ -149,25 +154,148 @@
           'fkidtipo' => $data['fkidtipo']
       ]);
       if ($success) {
-        $data['idproducto'] = $db->lastInsertId();
-        $prod = new Productos;
-        $prod->cargarDatosDeArray($data);
-        return $prod;
+        return $db->lastInsertId();
       }
       return null;
     }
 
     /**
-     * Permite cargar todos los datos al object para poder
-     * devolverlos en la respuesta...
-     * @param $fila
-     * @returns void
+     * Implementación para serealizar el object y enviarse en JSON...
+     * @return {Object}
      */
-    private function cargarDatosDeArray($fila)
+    public function jsonSerialize() 
     {
-      foreach($this->propiedades as $prop){
-        $this->{$prop} = $fila[$prop];
-      }
+      return [
+        'idproducto'=> $this->getIdProducto(),
+        'nombre' => $this->getNombre(),
+        'descripcion' => $this->getDescripcion(),
+        'stock' => $this->getStock(),
+        'precio' => $this->getPrecio(),
+        'fecha_alta' => $this->getFechaAlta(),
+        'img' => $this->getImg(),
+        'categoria' => $this->getCategoria(),
+        'tipo' => $this->getTipo()
+      ];
+    }
+
+    /**
+     * Permite crear un Producto con los datos recibidos de la fila,
+     * genera el object usando los setters y carga la categoria y el tipo...
+     * @param $row
+     * @returns Producto
+     */
+    private function populateProducto($row) 
+    {
+      //Categoria
+      $cat = new Categorias;
+      $cat->setIdCat($row['idcat']);
+      $cat->setCategoria($row['categoria']);
+      //Tipo
+      $tipo = new Tipos;
+      $tipo->setIdTipo($row['idtipo']);
+      $tipo->setTipo($row['tipo']);
+      //Producto
+      $prod = new Productos;
+      $prod->setIdProducto($row['idproducto']);
+      $prod->setNombre($row['nombre']);
+      $prod->setDescripcion($row['descripcion']);
+      $prod->setStock($row['stock']);
+      $prod->setPrecio($row['precio']);
+      $prod->setImg($row['img']);
+      $prod->setCategoria($cat);
+      $prod->setTipo($tipo);
+      return $prod;
+    }
+
+    //Getters y Setters
+    public function setIdProducto($idproducto) 
+    {
+      $this->idproducto = $idproducto;
+    }
+
+    public function getIdProducto() 
+    {
+      return $this->idproducto;
+    }
+
+    public function setNombre($nombre) 
+    {
+      $this->nombre = $nombre;
+    }
+
+    public function getNombre() 
+    {
+      return $this->nombre;
+    }
+
+    public function setDescripcion($descripcion) 
+    {
+      $this->descripcion = $descripcion;
+    }
+
+    public function getDescripcion() 
+    {
+      return $this->descripcion;
+    }
+
+    public function setStock($stock) 
+    {
+      $this->stock = $stock;
+    }
+
+    public function getStock() 
+    {
+      return $this->stock;
+    }
+
+    public function setPrecio($precio) 
+    {
+      $this->precio = $precio;
+    }
+
+    public function getPrecio() 
+    {
+      return $this->precio;
+    }
+
+    public function setFechaAlta($fecha_alta) 
+    {
+      $this->fecha_alta = $fecha_alta;
+    }
+
+    public function getFechaAlta() 
+    {
+      return $this->fecha_alta;
+    }
+
+    public function setImg($img) 
+    {
+      $this->img = $img;
+    }
+
+    public function getImg() 
+    {
+      return $this->img;
+    }
+
+    public function setCategoria(Categorias $categoria) 
+    {
+      $this->categoria = $categoria;
+    }
+
+    public function getCategoria() 
+    {
+      return $this->categoria;
+    }
+
+    public function setTipo(Tipos $tipo) 
+    {
+      $this->tipo = $tipo;
+    }
+
+    public function getTipo() 
+    {
+      return $this->tipo;
     }
 
 }
