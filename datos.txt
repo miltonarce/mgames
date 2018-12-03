@@ -1,0 +1,5 @@
+Alumno: Milton Arce, Torre Matias Daniel
+Año: 2018
+Comisión: W1043, W1041
+Profesor: Santiago Gallino
+Recuperatorio 1er parcial Programación 3, Aplicaciones Móviles

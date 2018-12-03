@@ -1,15 +1,20 @@
 <?php
 
+/**
+ * Clase Usuario que se encarga de representar el modelo de la tabla Usuario
+ */
 class Usuario
 {
 
   protected $id;
   protected $usuario;
   protected $password;
+  protected $isAdmin;
 
   /**
    * Permite obtener el usuario por el username...
    * @param $username
+   * @return boolean
    */
   public function getUser($usuario)
   {
@@ -27,28 +32,44 @@ class Usuario
   }
 
   //Getters y Setters
-  public function setId($id) {
+  public function setId($id) 
+  {
     $this->id = $id;
   }
 
-  public function getId() {
+  public function getId() 
+  {
     return $this->id;
   }
 
-  public function setUsuario($usuario) {
+  public function setUsuario($usuario) 
+  {
     $this->usuario = $usuario;
   }
 
-  public function getUsuario() {
+  public function getUsuario() 
+  {
     return $this->usuario;
   }
 
-  public function setPassword($password) {
+  public function setPassword($password) 
+  {
     $this->password = $password;
   }
 
-  public function getPassword() {
+  public function getPassword() 
+  {
     return $this->password;
   }
+
+  public function setIsAdmin($isAdmin) 
+  {
+		$this->isAdmin = $isAdmin;
+	}
+
+  public function getIsAdmin() 
+  {
+		return $this->isAdmin;
+	}
 
 }

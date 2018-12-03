@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Clase Validator , se encarga de manejar las validaciones de los campos recibidos en las consultas...
+ */
 class Validator
 {
 

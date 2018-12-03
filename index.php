@@ -24,7 +24,7 @@ if(!Auth::isLogged()) {
                 <a href="index.php"><h1 class="logo">Millennial Games</h1></a>
                 <ul class="nav justify-content-end">
                   <li class="nav-item">
-                  <a class="nav-link" href="#"> Bienvenido! <span class="badge badge-light"><?= $_SESSION['username'] ?></span></a>
+                  <a class="nav-link" href="#"> Bienvenido! <span class="badge badge-light"><?= unserialize(Session::get('USER_LOGGED_IN'))->getUsuario() ?></span></a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="logout.php">Cerrar Sesión</a>

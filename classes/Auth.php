@@ -1,4 +1,9 @@
 <?php
+
+  /**
+   * Clase Auth que maneja la autenticación del usuario, si esta logueado,
+   * realiza login, guarda en sesión los datos necesarios...
+   */
   class Auth
   {
 
@@ -7,46 +12,49 @@
      * para validarlo
      * @param $usuario
      * @param $password
-     * @returns boolean
+     * @return boolean
      */
     public function login($usuario, $password)
     {
       $user = new Usuario;
       if ($user->getUser($usuario)) {
         if (password_verify($password, $user->getPassword())) {
-          $this->loginUser($user);
+          //Guarda en sesión una variable con los datos del user, se hace un serialize por ser un object...
+          Session::set('USER_LOGGED_IN', serialize($user));
           return true;
         }
         return false;
       }
       return false;
     }
-    
-    public function loginUser(Usuario $user)
-    {
-      
-      $_SESSION['id'] = $user->getId();
-      $_SESSION['username'] = $user->getUsuario();
-    }
 
     /**
      * Permite cerrar la sesión del usuario
      * eliminando las variables de la sesión
-     * @returns void
+     * @return void
      */
     public function logout()
     {
-      unset($_SESSION['id']);
-      unset($_SESSION['username']);
+      Session::remove(['USER_LOGGED_IN']);
     }
 
     /**
      * Permite verificar si el usuario esta logueado
-     * @returns boolean
+     * @return boolean
      */
     public static function isLogged()
     {
-      return isset($_SESSION['id']);
+      return Session::get('USER_LOGGED_IN') ? true : false;
+    }
+
+    /**
+     * Permite verificar si el usuario logueado es un ADMIN
+     * @return boolean
+     */
+    public static function isAdmin() 
+    {
+      $user = Session::get('USER_LOGGED_IN');
+      return $user->getIsAdmin();
     }
 
   }
