@@ -38,9 +38,10 @@ const agregarDeleteEventListener = () => {
   let elements = document.querySelectorAll('a[data-id-remove]');
   elements.forEach(element => {
     element.addEventListener('click', el => {
+      let idProducto = element.dataset['idRemove'];
       ajax({
         method: 'DELETE',
-        url: `api/productos.php?id=${el.path[1].attributes[1].value}`,
+        url: `api/productos.php?id=${idProducto}`,
         successCallback: rta => {
           let response = JSON.parse(rta);
           document.getElementById('msg').innerHTML = `<div class="mg-alert alert alert-success alert-dismissible fade show" role="alert">
