@@ -44,3 +44,13 @@ main{
   padding: 6px;
   color:gray;
 }
+.mg-alert{
+  z-index: 10;
+  width: 400px;
+}
+#msg{
+  position: absolute;
+  width: 400px;
+  top: 100px;
+  right: 30px;
+}

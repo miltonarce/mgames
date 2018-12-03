@@ -32,8 +32,9 @@ if(!Auth::isLogged()) {
                 </ul>
               </nav>
       </header>
-    <div class="cont d-flex justify-content-center">
-      <main> 
+    <div class="d-flex justify-content-center">
+      <div id="msg"></div>
+      <main id="main-cont"> 
         <div class="container">
           <div class="row add">
             <div class="col">
@@ -69,7 +70,6 @@ if(!Auth::isLogged()) {
           </div>
         </div>
       </main>
-      <div class="d-flex"></div>
       <footer class="footer d-flex justify-content-end">
       <p>Tp1 by Matias Torre - Milton Arce</p>
     </footer>

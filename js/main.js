@@ -17,7 +17,7 @@ const recargarItems = () => {
 const generarTemplate = productos => {
   let template = '';
   productos.forEach(producto => {
-    template+= `<tr>
+    template += `<tr>
       <td>${producto.idproducto}</td>
       <td><img class="img-thumbnail" src="uploads/${producto.img}" alt="imagen de ${producto.nombre}" /></td>
       <td>${producto.nombre}</td>
@@ -43,9 +43,13 @@ const agregarDeleteEventListener = () => {
         url: `api/productos.php?id=${el.path[1].attributes[1].value}`,
         successCallback: rta => {
           let response = JSON.parse(rta);
-          console.log(response);
+          document.getElementById('msg').innerHTML = `<div class="mg-alert alert alert-success alert-dismissible fade show" role="alert">
+           ${response.msg}
+           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+           </button>
+         </div>`
           recargarItems();
-
         }
       });
     });
