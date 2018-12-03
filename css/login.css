@@ -1,0 +1,28 @@
+body {
+  background: black;
+}
+h1 {
+  width: 310px;
+  height: 65px;
+  font-size: 0px;
+  background: url("../img/logo.png");
+}
+#content {
+  background: url("../img/background.png") center no-repeat;
+  height: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#content-login {
+  position: absolute;
+  padding: 40px;
+  background: white;
+  border-radius: 3px;
+  width: 400px;
+}
+.mg-input-text{
+  border: none;
+  border-bottom: 2px solid #e6392e;
+  border-radius: 0px;
+}

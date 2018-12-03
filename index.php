@@ -12,19 +12,16 @@ if(!Auth::isLogged()) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Millennial Games</title>
-  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/dist/css/bootstrap.css">
   <link rel="stylesheet" href="css/styles.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <div class="row">
+  <div class="container-main container-fluid">
       <header>
-        <div class="container">
-            <div class="row">
-              <nav class="navbar navbar-dark bg-dark">
-                <h1 class="logo">Millennial Games</h1>
+              <nav class="navbar navbar-light bg-light">
+                <a href="index.php"><h1 class="logo">Millennial Games</h1></a>
                 <ul class="nav justify-content-end">
                   <li class="nav-item">
                   <a class="nav-link" href="#"> Bienvenido! <span class="badge badge-light"><?= $_SESSION['username'] ?></span></a>
@@ -34,11 +31,8 @@ if(!Auth::isLogged()) {
                   </li>
                 </ul>
               </nav>
-            </div>
-        </div>
       </header>
-    </div>
-    <div class="row">
+    <div class="d-flex justify-content-center">
       <main> 
         <div class="container">
           <div class="row add">
@@ -52,8 +46,8 @@ if(!Auth::isLogged()) {
             </div>
           </div>
           <div class="row">
-            <table class="table text-center text-justify table-hover">
-              <thead class="thead-dark">
+            <table class="table text-center text-justify table-hover table-light">
+              <thead class="thead-light">
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Imagen</th>
@@ -76,7 +70,8 @@ if(!Auth::isLogged()) {
         </div>
       </main>
     </div>
-    <footer>
+    <footer class="footer d-flex justify-content-end">
+      <p>Tp1 by Matias Torre - Milton Arce</p>
     </footer>
   </div>
 

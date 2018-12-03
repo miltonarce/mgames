@@ -1,3 +1,6 @@
+body{
+  background: url('../img/pattern.png');
+}
 h1 {
   width: 310px;
   height: 65px;
@@ -15,9 +18,28 @@ nav {
   width: 100%;
   margin: 0px auto;
 }
+main{
+  margin-bottom: 100px;
+}
 .add {
   padding: 40px;
 }
 .main-content {
   padding: 20px;
+  margin-top: 100px;
+}
+.container-main{
+    padding-right: unset; 
+    padding-left: unset; 
+    margin-right: unset; 
+    margin-left: unset;
+}
+.footer{
+  background: whitesmoke;
+}
+.footer p {
+  font-size: 12px;
+  height: 20px;
+  padding: 6px;
+  color:gray;
 }
