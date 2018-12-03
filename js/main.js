@@ -51,8 +51,20 @@ const agregarDeleteEventListener = () => {
            </button>
          </div>`
           recargarItems();
+          dismiss();
         }
       });
+    });
+  });
+}
+/**
+ * Function para cerrar popups
+ */
+const dismiss = () => {
+  let alert = document.querySelectorAll('button[data-dismiss]');
+  alert.forEach(al => {
+    al.addEventListener('click', a => {
+      a.parentNode.removeChild(a);
     });
   });
 }
