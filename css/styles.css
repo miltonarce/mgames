@@ -36,6 +36,7 @@ main{
 }
 .footer{
   background: whitesmoke;
+  margin-bottom: 0;
 }
 .footer p {
   font-size: 12px;

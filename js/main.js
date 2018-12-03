@@ -52,9 +52,10 @@ function removeEventListener() {
         successCallback: rta => {
           let response = JSON.parse(rta);
           console.log(response);
+          recargarItems();
+
         }
       });
-      console.log(el.path[1].attributes[1].value);
     });
   });
 }
