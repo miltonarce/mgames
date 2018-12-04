@@ -35,9 +35,9 @@ if(!Auth::isLogged()) {
     <div class="d-flex justify-content-center">
     <div id="msg"></div>
        <main class="main-content container bg-light">
-        <h2>Agregar Producto</h2>
-        <p>Ingrese los datos del producto que desea agregar.</p>
-        <form action="agregar.php" id="agregarprod" method="post" enctype="multipart/form-data">
+        <h2>Editar Producto</h2>
+        <p>Módifique los datos del producto que desea editar.</p>
+        <form action="editar.php" id="agregarprod" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" name="nombre" id="nombre" class="form-control">
@@ -81,6 +81,6 @@ if(!Auth::isLogged()) {
 
   <script src="js/ajax.js"></script>
   <script src="js/obtener-imagen.js"></script>
-  <script src="js/agregar-prod.js"></script>
+  <script src="js/editar-prod.js"></script>
 </body>
 </html>

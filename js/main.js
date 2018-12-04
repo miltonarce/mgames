@@ -27,7 +27,7 @@ const generarTemplate = productos => {
       <td><strong class="badge badge-secondary">${producto.fecha_alta}</strong></td>
       <td>${producto.categoria.categoria}</td>
       <td>${producto.tipo.tipo}</td>
-      <td><a href="#" data-id="#"><i class="material-icons">border_color</i></a></td>
+      <td><a href="editar-prod.php" data-id="#"><i class="material-icons">border_color</i></a></td>
       <td><a href="#" data-id-remove="${producto.idproducto}"><i class="material-icons">delete_forever</i></a></td>
     </tr>`
   });
