@@ -75,8 +75,9 @@ if(!Auth::isLogged()) {
     </footer>
     </div>
   </div>
-
-  <script src="js/ajax.js"></script>
+  <!-- Script de utilidades AJAX, manejo de ids, base64 -->
+  <script src="js/utils.js"></script>
+  <!-- Script principal, de esta view -->
   <script src="js/main.js"></script>
 </body>
 </html>
