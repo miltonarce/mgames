@@ -56,24 +56,3 @@ const crearRequest = () => {
   });
 }
 
-/**
- * Permite obtener los campos del formulario, devuelve un object
- * con los datos
- * @return {Object}
- */
-const obtenerCampos = () => {
-  let nombre = $('nombre');
-  let descripcion = $('descripcion');
-  let stock = $('stock');
-  let precio = $('precio');
-  let categoria = $('categoria');
-  let producto = $('producto');
-  return {
-    nombre: nombre.value,
-    descripcion: descripcion.value,
-    stock: stock.value,
-    precio: precio.value,
-    fkidcat: categoria.value,
-    fkidtipo: producto.value
-  };
-}

@@ -116,6 +116,7 @@ const getAllTipos = (idprod, idT) => {
 	});
 }
 
+
 const esVacio = valor => valor.trim() == '';
 
 const esNumero = valor => !isNaN(valor);
@@ -129,6 +130,30 @@ const obtenerErrores = data => {
 		precio: '',
 		stock: ''
 	};
+
+	/**
+	 * Permite obtener los campos del formulario, devuelve un object
+	 * con los datos
+	 * @return {Object}
+	 */
+	const obtenerCampos = () => {
+		let nombre = $('nombre');
+		let descripcion = $('descripcion');
+		let stock = $('stock');
+		let precio = $('precio');
+		let categoria = $('categoria');
+		let producto = $('producto');
+		return {
+			nombre: nombre.value,
+			descripcion: descripcion.value,
+			stock: stock.value,
+			precio: precio.value,
+			fkidcat: categoria.value,
+			fkidtipo: producto.value
+		};
+	}
+
+
 	if (esVacio(data.nombre)) {
 		errores.nombre += 'El campo nombre no puede ser vacío';
 	}
@@ -155,4 +180,30 @@ const obtenerErrores = data => {
 
 const esValidoElForm = errores => errores.nombre == '' && errores.descripcion == '' && errores.precio == '' && errores.stock == '';
 
+/**
+ * Permite setear el evento submit del formulario para manejar la edición de un producto
+ * @return void
+ */
+const addSubmitEventFormEditProduct = (idprod) => {
+	$('errores').innerHTML = '';
+	$('errores').className = '';
+	let formEditProd = $('editarprod');
+	formEditProd.addEventListener('submit', ev => {
+		ev.preventDefault();
+		let errores = obtenerErrores(obtenerCampos());
+		if (esValidoElForm(errores)) {
+			crearRequest().then(request => {
+				ajax({
+					method: 'PUT',
+					url: 'api/productos.php?id=' + idprod,
+					data: request,
+					successCallback: response => {
+						crearAlert('alert-success', response.msg);
+						console.log(response);
+					}
+				});
+			});
+		}
+	});
+}
 

@@ -115,9 +115,11 @@ const agregarEditEventListener = () => {
                   <div id="getIMG"><img class="img-thumbnail" src="uploads/${img}" alt="imagen de ${nombre}" /></div>
               </div>
               <button class="btn btn-primary btn-block">Editar producto</button>
+              <div id="errores" style="margin:1em"></div>
           </form></div>`
           getAllCategorias(idproducto, categoria.idcat);
           getAllTipos(idproducto, tipo.idTipo);
+          addSubmitEventFormEditProduct(idproducto);
         }
       })
     });
