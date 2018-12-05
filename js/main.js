@@ -10,6 +10,7 @@ const recargarItems = () => {
       let productos = JSON.parse(response);
       document.getElementById('items').innerHTML = generarTemplate(productos);
       agregarDeleteEventListener();
+      agregarEditEventListener();
     }
   });
 }
@@ -27,13 +28,15 @@ const generarTemplate = productos => {
       <td><strong class="badge badge-secondary">${producto.fecha_alta}</strong></td>
       <td>${producto.categoria.categoria}</td>
       <td>${producto.tipo.tipo}</td>
-      <td><a href="editar-prod.php" data-id="#"><i class="material-icons">border_color</i></a></td>
+      <td><a href="#" data-id="${producto.idproducto}"><i class="material-icons">border_color</i></a></td>
       <td><a href="#" data-id-remove="${producto.idproducto}"><i class="material-icons">delete_forever</i></a></td>
     </tr>`
   });
   return template;
 }
-
+/**
+ * Función que agrega el evento de borrar
+ */
 const agregarDeleteEventListener = () => {
   let elements = document.querySelectorAll('a[data-id-remove]');
   elements.forEach(element => {
@@ -57,6 +60,67 @@ const agregarDeleteEventListener = () => {
     });
   });
 }
+
+/**
+ * Función que agrega el evento de editar
+ */
+const agregarEditEventListener = () => {
+  let elements = document.querySelectorAll('a[data-id]');
+  elements.forEach(element => {
+    element.addEventListener('click', el => {
+      let idProducto = element.dataset['id'];
+      ajax({
+        url: 'api/productos.php',
+        data: 'id=' + idProducto,
+        successCallback: rta => {
+          let response = JSON.parse(rta);
+          let { nombre, descripcion, stock, precio, categoria, producto, img } = response;
+          document.getElementById('main-cont').innerHTML = ` <div  class="main-content container bg-light"> <h2>Editar Producto</h2>
+          <p>Módifique los datos del producto que desea editar.</p>
+          <form action="editar.php" id="editarprod" method="post" enctype="multipart/form-data">
+              <div class="form-group">
+                  <label for="nombre">Nombre</label>
+                  <input type="text" name="nombre" id="nombre" value="${nombre}" class="form-control">
+              </div>
+              <div class="form-group">
+                  <label for="genero">Descripción</label>
+                  <textarea name="descripcion" id="descripcion"  class="form-control">${descripcion}</textarea>
+              </div>
+              <div class="form-group">
+                  <label for="genero">Stock</label>
+                  <input type="text" name="stock" id="stock" value="${stock}"  class="form-control">
+              </div>
+              <div class="form-group">
+                  <label for="precio">Precio</label>
+                  <input type="text" name="precio" id="precio" value="${precio}"   class="form-control">
+              </div>
+              <div class="form-group">
+                  <label for="fecha">Categoría</label>
+                  <select class="custom-select" name="categoria" id="categoria">
+  
+                  </select>
+              </div>
+              <div class="form-group">
+                  <label for="descripcion">Producto</label>
+                  <select class="custom-select" name="producto" id="producto">
+                  </select>
+                  
+                </div>
+              <div class="form-group">
+                  <label for="descripcion">Imagen</label>
+                  <input type="file" name="imagen" id="imagen" class="form-control" />
+                  <div id="getIMG"></div>
+              </div>
+              <button class="btn btn-primary btn-block">Agregar producto</button>
+          </form></div>`
+          recargarCategorias();
+          recargarTipo();
+        }
+      })
+    });
+  });
+}
+
 /**
  * Function para cerrar popups
  */
