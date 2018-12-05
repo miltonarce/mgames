@@ -180,6 +180,28 @@ const obtenerErrores = data => {
 
 const esValidoElForm = errores => errores.nombre == '' && errores.descripcion == '' && errores.precio == '' && errores.stock == '';
 
+
+/**
+ * Permite crear el request con los datos del formulario,
+ * verifica si se seleccionó una imagen, si hay alguna la carga
+ * y obtiene el base64
+ * @return {Promise} request
+ */
+const crearRequest = () => {
+	return new Promise((resolve, reject) => {
+		let requestDefault = obtenerCampos();
+		let img = $('img');
+		if (img.files.length > 0) {
+			getBase64(img.files[0]).then(base64 => {
+				requestDefault.img = base64;
+				resolve(requestDefault);
+			});
+		} else {
+			resolve(requestDefault);
+		}
+	});
+}
+
 /**
  * Permite setear el evento submit del formulario para manejar la edición de un producto
  * @return void
