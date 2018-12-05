@@ -79,9 +79,9 @@ const agregarEditEventListener = () => {
       ajax({
         url: 'api/productos.php',
         data: 'id=' + idProducto,
-        successCallback: rta => {
-          let response = JSON.parse(rta);
-          let { nombre, descripcion, stock, precio, categoria, producto, img } = response;
+        successCallback: response => {
+          console.log(response);
+          let { idproducto, nombre, descripcion, stock, precio, categoria, tipo, img } = response;
           document.getElementById('main-cont').innerHTML = ` <div  class="main-content container bg-light"> <h2>Editar Producto</h2>
           <p>Módifique los datos del producto que desea editar.</p>
           <form action="editar.php" id="editarprod" method="post" enctype="multipart/form-data">
@@ -116,12 +116,12 @@ const agregarEditEventListener = () => {
               <div class="form-group">
                   <label for="descripcion">Imagen</label>
                   <input type="file" name="imagen" id="imagen" class="form-control" />
-                  <div id="getIMG"></div>
+                  <div id="getIMG"><img class="img-thumbnail" src="uploads/${img}" alt="imagen de ${nombre}" /></div>
               </div>
-              <button class="btn btn-primary btn-block">Agregar producto</button>
+              <button class="btn btn-primary btn-block">Editar producto</button>
           </form></div>`
-          recargarCategorias();
-          recargarTipo();
+          getAllCategorias(idproducto, categoria.idcat);
+          getAllTipos(idproducto, tipo.idTipo);
         }
       })
     });

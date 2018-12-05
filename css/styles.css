@@ -48,9 +48,16 @@ main{
   z-index: 10;
   width: 400px;
 }
+.editmain{
+  width: 80%;
+}
 #msg{
   position: absolute;
   width: 400px;
   top: 100px;
   right: 30px;
+}
+#getIMG{
+  text-align: center;
+  padding: 20px 0px 0px 10px;
 }

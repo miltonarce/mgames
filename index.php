@@ -34,7 +34,7 @@ if(!Auth::isLogged()) {
       </header>
     <div class="d-flex justify-content-center">
       <div id="msg"></div>
-      <main id="main-cont"> 
+      <main id="main-cont" class="editmain"> 
         <div class="container">
           <div class="row add">
             <div class="col">

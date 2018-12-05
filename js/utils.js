@@ -10,14 +10,14 @@
  * @return void
  */
 const ajax = options => {
-  let xMLHttpRequest = new XMLHttpRequest();
+	let xMLHttpRequest = new XMLHttpRequest();
 	let data = null;
 	let url = options.url;
 	let method = options.method ? options.method : 'GET';
 	if (options.data) {
 		if (method.toUpperCase() === 'GET') {
 			url += '?' + options.data;
-		} 
+		}
 		else {
 			data = JSON.stringify(options.data);
 		}
@@ -28,7 +28,7 @@ const ajax = options => {
 			xMLHttpRequest.status === 200 ? options.successCallback(JSON.parse(xMLHttpRequest.responseText)) : options.errorCallback('Se produjo un error');
 		}
 	});
-	if(method.toUpperCase() === 'POST') {
+	if (method.toUpperCase() === 'POST') {
 		xMLHttpRequest.setRequestHeader('Content-Type', 'application/json');
 	}
 	xMLHttpRequest.send(data);
@@ -64,7 +64,7 @@ const getBase64 = file => {
  * @param {string} msg 
  * @return void
  */
-const crearAlert = (type = 'alert-success' , msg) => {
+const crearAlert = (type = 'alert-success', msg) => {
 	let alert = `<div class="mg-alert alert alert-dismissible fade show ${type}" role="alert">
 					${msg}
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -73,7 +73,7 @@ const crearAlert = (type = 'alert-success' , msg) => {
 				</div>`;
 	$('msg').innerHTML = alert;
 	let button = document.querySelector('button[data-dismiss]');
-	button.addEventListener('click', () => button.parentNode.classList.remove('show')); 
+	button.addEventListener('click', () => button.parentNode.classList.remove('show'));
 }
 
 /**
@@ -81,33 +81,35 @@ const crearAlert = (type = 'alert-success' , msg) => {
  * genera el html correspondiente, para popular el select...
  * @return void
  */
-const getAllCategorias = () => {
+const getAllCategorias = (idprod, idC) => {
 	ajax({
-	  method: 'GET',
-	  url: 'api/categorias.php',
-	  successCallback: response => {
-		let template = '';
-		response.forEach(cat => {
-		  template += `<option value="${cat.idcat}">${cat.categoria}</option>`;
-		});
-		$('categoria').innerHTML = template;
-	  }
+		method: 'GET',
+		url: 'api/categorias.php',
+		successCallback: response => {
+			let template = '';
+			response.forEach(cat => {
+				const isSelected = (idp, idC, cidp) => (idp && idC === cidp ? 'selected' : '')
+				template += `<option value="${cat.idcat}" ${isSelected(idprod, idC, cat.idcat)}>${cat.categoria}</option>`;
+			});
+			$('categoria').innerHTML = template;
+		}
 	});
 }
-  
+
 /**
  * Permite obtener todos los tipos disponbiles que existen,
  * genera el html correspondiente, para popular el select...
  * @return void
  */
-const getAllTipos = () => {
+const getAllTipos = (idprod, idT) => {
 	ajax({
 		method: 'GET',
 		url: 'api/tipos.php',
 		successCallback: response => {
 			let template = '';
 			response.forEach(function (type) {
-				template += `<option value="${type.idTipo}">${type.tipo}</option>`;
+				const isSelected = (idp, idT, tidp) => (idp && idT === tidp ? 'selected' : '')
+				template += `<option value="${type.idTipo}" ${isSelected(idprod, idT, type.idTipo)}>${type.tipo}</option>`;
 			});
 			$('producto').innerHTML = template;
 		}
