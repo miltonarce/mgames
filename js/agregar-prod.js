@@ -20,6 +20,7 @@ const addSubmitEventFormAddProduct = () => {
         data: request,
         successCallback: response => {
           crearAlert('alert-success', response.msg);
+          formAddProd.reset();
         }
       });
     });
