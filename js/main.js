@@ -59,23 +59,10 @@ const agregarDeleteEventListener = () => {
         method: 'DELETE',
         url: `api/productos.php?id=${idProducto}`,
         successCallback: response => {
-          $('msg').innerHTML = crearAlert('alert-success', response.msg);
+          crearAlert('alert-success', response.msg);
           recargarItems();
-          dismiss();
         }
       });
-    });
-  });
-}
-
-/**
- * Permite agregar el dismiss
- */
-const dismiss = () => {
-  let alert = document.querySelectorAll('button[data-dismiss]');
-  alert.forEach(al => {
-    al.addEventListener('click', a => {
-      a.parentNode.removeChild(a);
     });
   });
 }

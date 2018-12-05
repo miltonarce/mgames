@@ -19,7 +19,7 @@ const addSubmitEventFormAddProduct = () => {
         url: 'api/productos.php',
         data: request,
         successCallback: response => {
-          $('msg').innerHTML = crearAlert('alert-success', response.msg);
+          crearAlert('alert-success', response.msg);
         }
       });
     });

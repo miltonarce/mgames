@@ -58,10 +58,11 @@ const getBase64 = file => {
 
 /**
  * Permite crear un alert de boostrap con la clase recibida por parametro
- * por default es sucess, clases posibles (alert-primary, alert-danger, alert-warning, alert-info) etc
+ * por default es sucess, clases posibles (alert-primary, alert-danger, alert-warning, alert-info) ...
+ * Agrega el event click al button para cerrarlo...
  * @param {string} type 
  * @param {string} msg 
- * @return string
+ * @return void
  */
 const crearAlert = (type = 'alert-success' , msg) => {
 	let alert = `<div class="mg-alert alert alert-dismissible fade show ${type}" role="alert">
@@ -70,7 +71,9 @@ const crearAlert = (type = 'alert-success' , msg) => {
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>`;
-	return alert;
+	$('msg').innerHTML = alert;
+	let button = document.querySelector('button[data-dismiss]');
+	button.addEventListener('click', () => button.parentNode.classList.remove('show')); 
 }
 
 /**
