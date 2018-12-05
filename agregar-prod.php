@@ -56,21 +56,18 @@ if(!Auth::isLogged()) {
             </div>
             <div class="form-group">
                 <label for="fecha">Categoría</label>
-                <select class="custom-select" name="categoria" id="categoria">
-
-                </select>
+                <select class="custom-select" name="categoria" id="categoria"></select>
             </div>
             <div class="form-group">
                 <label for="descripcion">Producto</label>
-                <select class="custom-select" name="producto" id="producto">
-                </select>
-                
+                <select class="custom-select" name="producto" id="producto"></select>
               </div>
             <div class="form-group">
                 <label for="descripcion">Imagen</label>
                 <input type="file" name="img" id="img" class="form-control" />
             </div>
             <button class="btn btn-primary btn-block">Agregar producto</button>
+            <div id="errores" style="margin:1em"></div>
         </form>
     </main>
     </div>

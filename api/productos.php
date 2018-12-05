@@ -55,8 +55,8 @@
         $data = json_decode($json, true);
         $validator = new Validator($data, [
             'nombre' => ['required'],
-            'descripcion' => ['required', 'min:5'],
-            'stock' => ['required'],
+            'descripcion' => ['required', 'min:3'],
+            'stock' => ['required', 'numeric'],
             'precio' => ['required', 'numeric'],
             'img' => ['required'],
             'fkidcat' => ['required', 'numeric'],
@@ -80,11 +80,11 @@
         $data = json_decode($json, true);
         $validator = new Validator($data, [
             'nombre' => ['required'],
-            'descripcion' => ['required'],
-            'stock' => ['required'],
-            'precio' => ['required'],
-            'fkidcat' => ['required'],
-            'fkidtipo' => ['required']
+            'descripcion' => ['required', 'min:3'],
+            'stock' => ['required', 'numeric'],
+            'precio' => ['required', 'numeric'],
+            'fkidcat' => ['required', 'numeric'],
+            'fkidtipo' => ['required', 'numeric']
         ]);
         if ($validator->passes()) {
             $newProduct = $prod->save($data);

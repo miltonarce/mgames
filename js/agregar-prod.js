@@ -10,20 +10,28 @@ window.addEventListener('DOMContentLoaded', () => {
  * @return void
  */
 const addSubmitEventFormAddProduct = () => {
+  $('errores').innerHTML = '';
+  $('errores').className = '';
   let formAddProd = $('agregarprod');
   formAddProd.addEventListener('submit', ev => {
     ev.preventDefault();
-    crearRequest().then(request => {
-      ajax({
-        method: 'POST',
-        url: 'api/productos.php',
-        data: request,
-        successCallback: response => {
-          crearAlert('alert-success', response.msg);
-          formAddProd.reset();
-        }
+    let errores = obtenerErrores(obtenerCampos());
+    if (esValidoElForm(errores)) {
+      crearRequest().then(request => {
+        ajax({
+          method: 'POST',
+          url: 'api/productos.php',
+          data: request,
+          successCallback: response => {
+            crearAlert('alert-success', response.msg);
+            formAddProd.reset();
+          }
+        });
       });
-    });
+    } else {
+      $('errores').className = 'alert alert-warning';
+      $('errores').innerHTML = `${errores.nombre} <br/> ${errores.descripcion} <br/> ${errores.precio} <br/> ${errores.stock} <br/>`;
+    }
   });
 }
 
