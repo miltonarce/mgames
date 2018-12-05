@@ -37,7 +37,7 @@ if(!Auth::isLogged()) {
        <main class="main-content container bg-light">
         <h2>Agregar Producto</h2>
         <p>Ingrese los datos del producto que desea agregar.</p>
-        <form action="agregar.php" id="agregarprod" method="post" enctype="multipart/form-data">
+        <form action="agregar.php" id="agregarprod" method="post">
             <div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" name="nombre" id="nombre" class="form-control">
@@ -68,7 +68,7 @@ if(!Auth::isLogged()) {
               </div>
             <div class="form-group">
                 <label for="descripcion">Imagen</label>
-                <input type="file" name="imagen" id="imagen" class="form-control" />
+                <input type="file" name="img" id="img" class="form-control" />
             </div>
             <button class="btn btn-primary btn-block">Agregar producto</button>
         </form>
@@ -78,9 +78,7 @@ if(!Auth::isLogged()) {
       <p>Tp1 by Matias Torre - Milton Arce</p>
     </footer>
   </div>
-
   <script src="js/ajax.js"></script>
-  <script src="js/obtener-imagen.js"></script>
   <script src="js/agregar-prod.js"></script>
 </body>
 </html>

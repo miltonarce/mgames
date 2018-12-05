@@ -2,18 +2,28 @@ window.addEventListener('DOMContentLoaded', () => {
   recargarItems();
 });
 
+/**
+ * Permite obtener todos los productos mediante AJAX llamando al service
+ * del API /productos
+ * @return void
+ */
 const recargarItems = () => {
   ajax({
     method: 'GET',
     url: 'api/productos.php',
     successCallback: response => {
-      let productos = JSON.parse(response);
-      document.getElementById('items').innerHTML = generarTemplate(productos);
+      $('items').innerHTML = generarTemplate(response);
       agregarDeleteEventListener();
     }
   });
 }
 
+/**
+ * Permite crear el template de los productos a mostrar
+ * en la tabla...
+ * @param {Array<Object>} productos
+ * @return string
+ */
 const generarTemplate = productos => {
   let template = '';
   productos.forEach(producto => {
@@ -34,6 +44,12 @@ const generarTemplate = productos => {
   return template;
 }
 
+/**
+ * Permite agregar a los botones de eliminar los event listener para
+ * el click, al clickear el eliminar usa AJAX para realizar el delete
+ * del producto
+ * @return void
+ */
 const agregarDeleteEventListener = () => {
   let elements = document.querySelectorAll('a[data-id-remove]');
   elements.forEach(element => {
@@ -42,9 +58,8 @@ const agregarDeleteEventListener = () => {
       ajax({
         method: 'DELETE',
         url: `api/productos.php?id=${idProducto}`,
-        successCallback: rta => {
-          let response = JSON.parse(rta);
-          document.getElementById('msg').innerHTML = `<div class="mg-alert alert alert-success alert-dismissible fade show" role="alert">
+        successCallback: response => {
+          $('msg').innerHTML = `<div class="mg-alert alert alert-success alert-dismissible fade show" role="alert">
            ${response.msg}
            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -57,8 +72,9 @@ const agregarDeleteEventListener = () => {
     });
   });
 }
+
 /**
- * Function para cerrar popups
+ * Permite agregar el dismiss
  */
 const dismiss = () => {
   let alert = document.querySelectorAll('button[data-dismiss]');
