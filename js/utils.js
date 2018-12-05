@@ -55,3 +55,58 @@ const getBase64 = file => {
 		reader.readAsDataURL(file);
 	});
 }
+
+/**
+ * Permite crear un alert de boostrap con la clase recibida por parametro
+ * por default es sucess, clases posibles (alert-primary, alert-danger, alert-warning, alert-info) etc
+ * @param {string} type 
+ * @param {string} msg 
+ * @return string
+ */
+const crearAlert = (type = 'alert-success' , msg) => {
+	let alert = `<div class="mg-alert alert alert-dismissible fade show ${type}" role="alert">
+					${msg}
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>`;
+	return alert;
+}
+
+/**
+ * Permite obtener todas las categorías disponibles que existen,
+ * genera el html correspondiente, para popular el select...
+ * @return void
+ */
+const getAllCategorias = () => {
+	ajax({
+	  method: 'GET',
+	  url: 'api/categorias.php',
+	  successCallback: response => {
+		let template = '';
+		response.forEach(cat => {
+		  template += `<option value="${cat.idcat}">${cat.categoria}</option>`;
+		});
+		$('categoria').innerHTML = template;
+	  }
+	});
+}
+  
+/**
+ * Permite obtener todos los tipos disponbiles que existen,
+ * genera el html correspondiente, para popular el select...
+ * @return void
+ */
+const getAllTipos = () => {
+	ajax({
+		method: 'GET',
+		url: 'api/tipos.php',
+		successCallback: response => {
+			let template = '';
+			response.forEach(function (type) {
+				template += `<option value="${type.idTipo}">${type.tipo}</option>`;
+			});
+			$('producto').innerHTML = template;
+		}
+	});
+}

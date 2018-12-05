@@ -59,12 +59,7 @@ const agregarDeleteEventListener = () => {
         method: 'DELETE',
         url: `api/productos.php?id=${idProducto}`,
         successCallback: response => {
-          $('msg').innerHTML = `<div class="mg-alert alert alert-success alert-dismissible fade show" role="alert">
-           ${response.msg}
-           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-           </button>
-         </div>`
+          $('msg').innerHTML = crearAlert('alert-success', response.msg);
           recargarItems();
           dismiss();
         }

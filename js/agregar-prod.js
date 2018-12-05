@@ -5,44 +5,6 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Permite obtener todas las categorías disponibles que existen,
- * genera el html correspondiente, para popular el select...
- * @return void
- */
-const getAllCategorias = () => {
-  ajax({
-    method: 'GET',
-    url: 'api/categorias.php',
-    successCallback: response => {
-      let template = '';
-      response.forEach(cat => {
-        template += `<option value="${cat.idcat}">${cat.categoria}</option>`;
-      });
-      $('categoria').innerHTML = template;
-    }
-  });
-}
-
-/**
- * Permite obtener todos los tipos disponbiles que existen,
- * genera el html correspondiente, para popular el select...
- * @return void
- */
-const getAllTipos = () => {
-  ajax({
-    method: 'GET',
-    url: 'api/tipos.php',
-    successCallback: response => {
-      let template = '';
-      response.forEach(function (type) {
-        template += `<option value="${type.idTipo}">${type.tipo}</option>`;
-      });
-      $('producto').innerHTML = template;
-    }
-  });
-}
-
-/**
  * Permite setear el evento submit al formulario para manejar
  * la creacion de un producto...
  * @return void
@@ -57,12 +19,7 @@ const addSubmitEventFormAddProduct = () => {
         url: 'api/productos.php',
         data: request,
         successCallback: response => {
-          $('msg').innerHTML = `<div class="mg-alert alert alert-success alert-dismissible fade show" role="alert">
-          ${response.msg}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-          </button>
-        </div>`
+          $('msg').innerHTML = crearAlert('alert-success', response.msg);
         }
       });
     });
