@@ -78,13 +78,13 @@ const agregarEditEventListener = () => {
       let idProducto = element.dataset['id'];
       ajax({
         url: 'api/productos.php',
-        data: 'id=' + idProducto,
+        data: `id=${idProducto}`,
         successCallback: response => {
-          console.log(response);
           let { idproducto, nombre, descripcion, stock, precio, categoria, tipo, img } = response;
-          document.getElementById('main-cont').innerHTML = ` <div  class="main-content container bg-light"> <h2>Editar Producto</h2>
-          <p>Módifique los datos del producto que desea editar.</p>
-          <form action="editar.php" id="editarprod" method="post" enctype="multipart/form-data">
+          $('main-cont').innerHTML = `
+          <div class="main-content container bg-light"> <h2>Editar Producto</h2>
+            <p>Módifique los datos del producto que desea editar.</p>
+            <form action="editar.php" id="editarprod" method="post" enctype="multipart/form-data">
               <div class="form-group">
                   <label for="nombre">Nombre</label>
                   <input type="text" name="nombre" id="nombre" value="${nombre}" class="form-control">
@@ -95,23 +95,19 @@ const agregarEditEventListener = () => {
               </div>
               <div class="form-group">
                   <label for="genero">Stock</label>
-                  <input type="text" name="stock" id="stock" value="${stock}"  class="form-control">
+                  <input type="text" name="stock" id="stock" value="${stock}" class="form-control">
               </div>
               <div class="form-group">
                   <label for="precio">Precio</label>
-                  <input type="text" name="precio" id="precio" value="${precio}"   class="form-control">
+                  <input type="text" name="precio" id="precio" value="${precio}" class="form-control">
               </div>
               <div class="form-group">
                   <label for="fecha">Categoría</label>
-                  <select class="custom-select" name="categoria" id="categoria">
-  
-                  </select>
+                  <select class="custom-select" name="categoria" id="categoria"></select>
               </div>
               <div class="form-group">
                   <label for="descripcion">Producto</label>
-                  <select class="custom-select" name="producto" id="producto">
-                  </select>
-                  
+                  <select class="custom-select" name="producto" id="producto"></select>
                 </div>
               <div class="form-group">
                   <label for="descripcion">Imagen</label>

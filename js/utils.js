@@ -115,3 +115,44 @@ const getAllTipos = (idprod, idT) => {
 		}
 	});
 }
+
+const esVacio = valor => valor.trim() == '';
+
+const esNumero = valor => !isNaN(valor);
+
+const superaCantidadMinima = valor => valor.length > 3;
+
+const obtenerErrores = data => {
+	let errores = {
+		nombre: '',
+		descripcion: '',
+		precio: '',
+		stock: ''
+	};
+	if (esVacio(data.nombre)) {
+		errores.nombre += 'El campo nombre no puede ser vacío';
+	}
+	if (esVacio(data.descripcion)) {
+		errores.descripcion += 'El campo descripción no puede ser vacío';
+	}
+	if (!superaCantidadMinima(data.descripcion)) {
+		errores.descripcion += '<br/> mínimo 3 caracteres';
+	}
+	if (esVacio(data.precio)) {
+		errores.precio += 'El campo precio no puede ser vacío';
+	}
+	if (!esNumero(data.precio)) {
+		errores.precio += 'El campo precio tiene que ser un número';
+	}
+	if (esVacio(data.stock)) {
+		errores.stock += 'El campo stock no puede ser vacío';
+	}
+	if (!esNumero(data.stock)) {
+		errores.stock += 'El campo stock tiene que ser un número';
+	}
+	return errores;
+}
+
+const esValidoElForm = errores => errores.nombre == '' && errores.descripcion == '' && errores.precio == '' && errores.stock == '';
+
+
