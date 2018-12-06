@@ -97,7 +97,7 @@ const agregarEditEventListener = () => {
  * Permite crear el template del formulario de edición con los datos cargados
  * obtenidos del ajax
  * @param {Object} response
- * @return {string}
+ * @return string
  */
 const crearTemplateFormularioEdit = response => {
   let { idproducto, nombre, descripcion, stock, precio, categoria, tipo, img } = response;

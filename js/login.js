@@ -36,7 +36,7 @@ const addSubmitEventFormLogin = () => {
 
 /**
  * Permite obtener los campos del formulario del login
- * @return {Object} request
+ * @return Object
  */
 const obtenerInputsForm = () => {
     return {
@@ -48,7 +48,7 @@ const obtenerInputsForm = () => {
 /**
  * Permite obtener los errores generados por el usuario en el formulario de login
  * @param {Object} request
- * @return {Object} errores
+ * @return Object
  */
 const obtenerErroresLogin = request => {
     let errores = { username: '', password: '' };
