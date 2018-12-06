@@ -10,11 +10,11 @@ window.addEventListener('DOMContentLoaded', () => {
  * @return void
  */
 const addSubmitEventFormAddProduct = () => {
-  $('errores').innerHTML = '';
-  $('errores').className = '';
   let formAddProd = $('agregarprod');
   formAddProd.addEventListener('submit', ev => {
     ev.preventDefault();
+    $('errores').innerHTML = '';
+    $('errores').className = '';
     let errores = obtenerErrores(obtenerCampos());
     if (esValidoElForm(errores)) {
       crearRequest().then(request => {

@@ -112,7 +112,7 @@ const crearTemplateFormularioEdit = response => {
       </div>
       <div class="form-group">
         <label for="genero">Descripción</label>
-        <textarea name="descripcion" id="descripcion"  class="form-control">${descripcion}</textarea>
+        <textarea name="descripcion" id="descripcion" placeholder="mínimo 3 caracteres" class="form-control">${descripcion}</textarea>
       </div>
       <div class="form-group">
         <label for="genero">Stock</label>
@@ -167,11 +167,11 @@ const addEventListenerLogout = () => {
  * @return void
  */
 const addSubmitEventFormEditProduct = (idprod) => {
-	$('errores').innerHTML = '';
-	$('errores').className = '';
 	let formEditProd = $('editarprod');
 	formEditProd.addEventListener('submit', ev => {
-		ev.preventDefault();
+    ev.preventDefault();
+    $('errores').innerHTML = '';
+    $('errores').className = '';
 		let errores = obtenerErrores(obtenerCampos());
 		if (esValidoElForm(errores)) {
 			crearRequest().then(request => {

@@ -45,7 +45,7 @@
                         </div>
                         <div class="form-group">
                             <label for="genero">Descripción</label>
-                            <textarea name="descripcion" id="descripcion" class="form-control"></textarea>
+                            <textarea name="descripcion" id="descripcion" placeholder="mínimo 3 caracteres" class="form-control"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="genero">Stock</label>
