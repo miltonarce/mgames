@@ -184,6 +184,9 @@ const addSubmitEventFormEditProduct = (idprod) => {
 					}
 				});
 			});
-		}
+		} else {
+      $('errores').className = 'alert alert-warning';
+      $('errores').innerHTML = `${errores.nombre} <br/> ${errores.descripcion} <br/> ${errores.precio} <br/> ${errores.stock} <br/>`;
+    }
 	});
 }
