@@ -197,6 +197,7 @@
       $prod->setIdProducto($row['idproducto']);
       $prod->setNombre($row['nombre']);
       $prod->setDescripcion($row['descripcion']);
+      $prod->setFechaAlta($row['fecha_alta']);
       $prod->setStock($row['stock']);
       $prod->setPrecio($row['precio']);
       $prod->setImg($row['img']);
