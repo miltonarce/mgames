@@ -37,16 +37,16 @@ const ajax = options => {
 /**
  * Permite obtener los elementos por el id del mismo, es
  * un wrapper a la funcion document.getElementById
- * @param id
- * @return {Element}
+ * @param {string} id
+ * @return Element
  */
 const $ = id => document.getElementById(id);
 
 /**
  * Permite obtener el base64 de la imagen, devuelve una promise
  * con el resultado...
- * @param {File} 
- * @return {Promise}
+ * @param {File}  file
+ * @return Promise
  */
 const getBase64 = file => {
 	return new Promise((resolve, reject) => {
@@ -79,6 +79,8 @@ const crearAlert = (type = 'alert-success', msg) => {
 /**
  * Permite obtener todas las categorías disponibles que existen,
  * genera el html correspondiente, para popular el select...
+ * @param {number} idprod
+ * @param {number} idC
  * @return void
  */
 const getAllCategorias = (idprod, idC) => {
@@ -99,6 +101,8 @@ const getAllCategorias = (idprod, idC) => {
 /**
  * Permite obtener todos los tipos disponbiles que existen,
  * genera el html correspondiente, para popular el select...
+ * @param {number} idprod
+ * @param {number} idT
  * @return void
  */
 const getAllTipos = (idprod, idT) => {
@@ -116,13 +120,32 @@ const getAllTipos = (idprod, idT) => {
 	});
 }
 
-
+/**
+ * Permite validar si es vacío el campo
+ * @param {string} valor 
+ * @return boolean
+ */
 const esVacio = valor => valor.trim() == '';
 
+/**
+ * Permite validar si el valor ingresado es un número
+ * @param {number | string} valor
+ * @return boolean
+ */
 const esNumero = valor => !isNaN(valor);
 
+/**
+ * Permite saber si el valor supera una cantidad minima, en este caso 3
+ * @param {number} valor
+ * @return boolean
+ */
 const superaCantidadMinima = valor => valor.length > 3;
 
+/**
+ * Permite obtener los errores que pueden ocurrir al llamar al formulario
+ * @param {Object} data
+ * @return errores
+ */
 const obtenerErrores = data => {
 	let errores = {
 		nombre: '',
@@ -130,30 +153,6 @@ const obtenerErrores = data => {
 		precio: '',
 		stock: ''
 	};
-
-	/**
-	 * Permite obtener los campos del formulario, devuelve un object
-	 * con los datos
-	 * @return {Object}
-	 */
-	const obtenerCampos = () => {
-		let nombre = $('nombre');
-		let descripcion = $('descripcion');
-		let stock = $('stock');
-		let precio = $('precio');
-		let categoria = $('categoria');
-		let producto = $('producto');
-		return {
-			nombre: nombre.value,
-			descripcion: descripcion.value,
-			stock: stock.value,
-			precio: precio.value,
-			fkidcat: categoria.value,
-			fkidtipo: producto.value
-		};
-	}
-
-
 	if (esVacio(data.nombre)) {
 		errores.nombre += 'El campo nombre no puede ser vacío';
 	}
@@ -178,14 +177,40 @@ const obtenerErrores = data => {
 	return errores;
 }
 
-const esValidoElForm = errores => errores.nombre == '' && errores.descripcion == '' && errores.precio == '' && errores.stock == '';
+/**
+ * Permite obtener los campos del formulario, devuelve un object
+ * con los datos
+ * @return Object
+ */
+const obtenerCampos = () => {
+	let nombre = $('nombre');
+	let descripcion = $('descripcion');
+	let stock = $('stock');
+	let precio = $('precio');
+	let categoria = $('categoria');
+	let producto = $('producto');
+	return {
+		nombre: nombre.value,
+		descripcion: descripcion.value,
+		stock: stock.value,
+		precio: precio.value,
+		fkidcat: categoria.value,
+		fkidtipo: producto.value
+	};
+}
 
+/**
+ * Permite saber si no hubo errores y es valido el form
+ * @param {Object} errores
+ * @return boolean
+ */
+const esValidoElForm = errores => errores.nombre == '' && errores.descripcion == '' && errores.precio == '' && errores.stock == '';
 
 /**
  * Permite crear el request con los datos del formulario,
  * verifica si se seleccionó una imagen, si hay alguna la carga
  * y obtiene el base64
- * @return {Promise} request
+ * @return Promise
  */
 const crearRequest = () => {
 	return new Promise((resolve, reject) => {
@@ -201,31 +226,3 @@ const crearRequest = () => {
 		}
 	});
 }
-
-/**
- * Permite setear el evento submit del formulario para manejar la edición de un producto
- * @return void
- */
-const addSubmitEventFormEditProduct = (idprod) => {
-	$('errores').innerHTML = '';
-	$('errores').className = '';
-	let formEditProd = $('editarprod');
-	formEditProd.addEventListener('submit', ev => {
-		ev.preventDefault();
-		let errores = obtenerErrores(obtenerCampos());
-		if (esValidoElForm(errores)) {
-			crearRequest().then(request => {
-				ajax({
-					method: 'PUT',
-					url: 'api/productos.php?id=' + idprod,
-					data: request,
-					successCallback: response => {
-						crearAlert('alert-success', response.msg);
-						console.log(response);
-					}
-				});
-			});
-		}
-	});
-}
-

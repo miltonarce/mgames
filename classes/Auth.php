@@ -19,7 +19,6 @@
       $user = new Usuario;
       if ($user->getUser($usuario)) {
         if (password_verify($password, $user->getPassword())) {
-          //Guarda en sesión una variable con los datos del user, se hace un serialize por ser un object...
           Session::set('USER_LOGGED_IN', serialize($user));
           return true;
         }

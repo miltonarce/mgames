@@ -1,5 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
   recargarItems();
+  addEventListenerLogout();
 });
 
 /**
@@ -12,7 +13,7 @@ const recargarItems = () => {
     method: 'GET',
     url: 'api/productos.php',
     successCallback: response => {
-      $('items').innerHTML = generarTemplate(response);
+      $('items').innerHTML = crearRegistrosTablaProductos(response);
       agregarDeleteEventListener();
       agregarEditEventListener();
     }
@@ -25,7 +26,7 @@ const recargarItems = () => {
  * @param {Array<Object>} productos
  * @return string
  */
-const generarTemplate = productos => {
+const crearRegistrosTablaProductos = productos => {
   let template = '';
   productos.forEach(producto => {
     template += `<tr>
@@ -69,7 +70,9 @@ const agregarDeleteEventListener = () => {
 }
 
 /**
- * Función que agrega el evento de editar
+ * Permite agregar el evento click de editar, a los productos,
+ * llama al servicio de php para eliminarlos...
+ * @return void
  */
 const agregarEditEventListener = () => {
   let elements = document.querySelectorAll('a[data-id]');
@@ -80,48 +83,107 @@ const agregarEditEventListener = () => {
         url: 'api/productos.php',
         data: `id=${idProducto}`,
         successCallback: response => {
-          let { idproducto, nombre, descripcion, stock, precio, categoria, tipo, img } = response;
-          $('main-cont').innerHTML = `
-          <div class="main-content container bg-light"> <h2>Editar Producto</h2>
-            <p>Módifique los datos del producto que desea editar.</p>
-            <form action="editar.php" id="editarprod" method="post" enctype="multipart/form-data">
-              <div class="form-group">
-                  <label for="nombre">Nombre</label>
-                  <input type="text" name="nombre" id="nombre" value="${nombre}" class="form-control">
-              </div>
-              <div class="form-group">
-                  <label for="genero">Descripción</label>
-                  <textarea name="descripcion" id="descripcion"  class="form-control">${descripcion}</textarea>
-              </div>
-              <div class="form-group">
-                  <label for="genero">Stock</label>
-                  <input type="text" name="stock" id="stock" value="${stock}" class="form-control">
-              </div>
-              <div class="form-group">
-                  <label for="precio">Precio</label>
-                  <input type="text" name="precio" id="precio" value="${precio}" class="form-control">
-              </div>
-              <div class="form-group">
-                  <label for="fecha">Categoría</label>
-                  <select class="custom-select" name="categoria" id="categoria"></select>
-              </div>
-              <div class="form-group">
-                  <label for="descripcion">Producto</label>
-                  <select class="custom-select" name="producto" id="producto"></select>
-                </div>
-              <div class="form-group">
-                  <label for="descripcion">Imagen</label>
-                  <input type="file" name="imagen" id="imagen" class="form-control" />
-                  <div id="getIMG"><img class="img-thumbnail" src="uploads/${img}" alt="imagen de ${nombre}" /></div>
-              </div>
-              <button class="btn btn-primary btn-block">Editar producto</button>
-              <div id="errores" style="margin:1em"></div>
-          </form></div>`
-          getAllCategorias(idproducto, categoria.idcat);
-          getAllTipos(idproducto, tipo.idTipo);
-          addSubmitEventFormEditProduct(idproducto);
+          $('main-cont').innerHTML = crearTemplateFormularioEdit(response);
+          getAllCategorias(idProducto, response.categoria.idcat);
+          getAllTipos(idProducto, response.tipo.idTipo);
+          addSubmitEventFormEditProduct(idProducto);
         }
       })
     });
   });
+}
+
+/**
+ * Permite crear el template del formulario de edición con los datos cargados
+ * obtenidos del ajax
+ * @param {Object} response
+ * @return {string}
+ */
+const crearTemplateFormularioEdit = response => {
+  let { idproducto, nombre, descripcion, stock, precio, categoria, tipo, img } = response;
+  return `
+  <div class="main-content container bg-light"> 
+    <h2>Editar Producto</h2>
+    <p>Módifique los datos del producto que desea editar.</p>
+    <form action="editar.php" id="editarprod" method="post">
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" id="nombre" value="${nombre}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="genero">Descripción</label>
+        <textarea name="descripcion" id="descripcion"  class="form-control">${descripcion}</textarea>
+      </div>
+      <div class="form-group">
+        <label for="genero">Stock</label>
+        <input type="text" name="stock" id="stock" value="${stock}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="precio">Precio</label>
+        <input type="text" name="precio" id="precio" value="${precio}" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="fecha">Categoría</label>
+        <select class="custom-select" name="categoria" id="categoria"></select>
+      </div>
+      <div class="form-group">
+        <label for="descripcion">Producto</label>
+        <select class="custom-select" name="producto" id="producto"></select>
+      </div>
+      <div class="form-group">
+        <label for="descripcion">Imagen</label>
+        <input type="file" name="img" id="img" class="form-control" />
+        <div id="getIMG"><img class="img-thumbnail" src="uploads/${img}" alt="imagen de ${nombre}" /></div>
+      </div>
+      <button class="btn btn-primary btn-block">Editar producto</button>
+      <div id="errores" style="margin:1em"></div>
+    </form>
+  </div>`;
+}
+
+/**
+ * Permite agregar al href del logout, el evento click
+ * para que se desloguee el usuario llamando a la API /auth
+ * @return void
+ */
+const addEventListenerLogout = () => {
+  let logoutLink = $('logout');
+  logoutLink.addEventListener('click', () => {
+    ajax({
+      method: 'GET',
+      url: 'api/auth.php',
+      successCallback: response => {
+        if (response.status === 1) {
+          window.location.href = 'login.php';
+        }
+      }
+    });
+  });
+}
+
+/**
+ * Permite setear el evento submit del formulario para manejar la edición de un producto
+ * @param {number} idprod
+ * @return void
+ */
+const addSubmitEventFormEditProduct = (idprod) => {
+	$('errores').innerHTML = '';
+	$('errores').className = '';
+	let formEditProd = $('editarprod');
+	formEditProd.addEventListener('submit', ev => {
+		ev.preventDefault();
+		let errores = obtenerErrores(obtenerCampos());
+		if (esValidoElForm(errores)) {
+			crearRequest().then(request => {
+				ajax({
+					method: 'PUT',
+					url: `api/productos.php?id=${idprod}`,
+					data: request,
+					successCallback: response => {
+						crearAlert('alert-success', response.msg);
+					}
+				});
+			});
+		}
+	});
 }

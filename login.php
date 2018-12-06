@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="css/dist/css/bootstrap.css">
-  <link rel="stylesheet" href="css/login.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <title>Millennial Games - Login</title>
-</head>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<link rel="stylesheet" href="css/dist/css/bootstrap.css">
+		<link rel="stylesheet" href="css/login.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<title>Millennial Games - Login</title>
+	</head>
 <body>
 	<div id="content">
 		<main class="container" id="content-login">
@@ -21,8 +21,7 @@
 				unset($_SESSION['error']);
 			}
 			?>
-
-			<form action="do-login.php" method="POST">
+			<form id="formLogin" method="POST">
 				<div class="form-group">
 				<label for="exampleInputEmail1" >Usuario</label>
 					<input type="text" name="username" id="username" class="mg-input-text form-control" value="<?php
@@ -38,7 +37,12 @@
 				</div>
 				<button class="btn btn-primary btn-block">Ingresar</button>
 			</form>
+			<div id="errores" style="margin:1em"></div>
 		</main>
 	</div>
+	<!-- Script de utilidades AJAX, manejo de ids, base64 -->
+	<script src="js/utils.js"></script>
+	<!-- Script principal, de esta view -->
+	<script src="js/login.js"></script>
 </body>
 </html>

@@ -127,7 +127,7 @@
         'descripcion' => $data['descripcion'],
         'stock' => $data['stock'],
         'precio' => $data['precio'],
-        'img' => $this->saveImage($data['img']),
+        'img' => isset($data['img']) ? $this->saveImage($data['img']) : 'no-image.png',
         'fkidcat' => $data['fkidcat'],
         'fkidtipo' => $data['fkidtipo'],
         'idproducto' => $id
