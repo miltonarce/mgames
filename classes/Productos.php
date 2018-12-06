@@ -107,11 +107,13 @@
      * actualiza la información del producto con la data recibida
      * @param $id
      * @param $data
+     * @throws NoExisteException
      * @return boolean
      */
     public function update($id, $data)
     {
       $db = DBConnection::getConnection();
+      $productToEdit = $this->find($id); //Valido primero si existe el registro a editar...
       $query = "UPDATE productos SET 
                       nombre = :nombre, 
                       descripcion = :descripcion, 
@@ -127,7 +129,7 @@
         'descripcion' => $data['descripcion'],
         'stock' => $data['stock'],
         'precio' => $data['precio'],
-        'img' => isset($data['img']) ? $this->saveImage($data['img']) : 'no-image.png',
+        'img' => isset($data['img']) ? $this->saveImage($data['img']) : $productToEdit->getImg(),
         'fkidcat' => $data['fkidcat'],
         'fkidtipo' => $data['fkidtipo'],
         'idproducto' => $id

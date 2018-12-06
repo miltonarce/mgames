@@ -48,7 +48,7 @@
         }
     } 
 
-    //Si es un PUT, se actualiza el producto
+    //Si es un PUT, se actualiza el producto, en el caso que el id no exista, lanza un msg de error
     if ($metodo === 'PUT' && isset($_GET['id'])) {
         $id = $_GET['id'];
         $json = file_get_contents('php://input');
@@ -62,11 +62,15 @@
             'fkidtipo' => ['required', 'numeric']
         ]);
         if ($validator->passes()) {
-            $success = $prod->update($id, $data);
-            if ($success) {
-                echo json_encode(['msg'=> 'Se actualizó correctamente el producto', 'status'=> 1]);
-            } else {
-                echo json_encode(['msg'=> 'Se produjo un error al actualizar el producto', 'status'=> 0]);
+            try {
+                $success = $prod->update($id, $data);
+                if ($success) {
+                    echo json_encode(['msg'=> 'Se actualizó correctamente el producto', 'status'=> 1]);
+                } else {
+                    echo json_encode(['msg'=> 'Se produjo un error al actualizar el producto', 'status'=> 0]);
+                }
+            } catch(NoExisteException $e) {
+                echo json_encode(['msg' => $e->getMessage(), 'status' => 0]);
             }
         } else {
             echo json_encode(['errors' => $validator->getErrores(), 'status' => 0, 'data' => null]);
